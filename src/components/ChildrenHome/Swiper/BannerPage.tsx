@@ -21,7 +21,7 @@ export default function BannerPage() {
     (async () => {
       try {
         const response: any = await bannerApi.getDataBanner();
-        setDataBanner(response.data[0].banner);
+        setDataBanner(response[0]?.banner || []);
       } catch (err) {
         console.log(err);
       }
@@ -36,10 +36,10 @@ export default function BannerPage() {
         <Swiper
           loop={true}
           modules={[Navigation, Autoplay]}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-          }}
+          // autoplay={{
+          //   delay: 5000,
+          //   disableOnInteraction: false,
+          // }}
         >
           {dataBanner?.map((data: any, index: any) => (
             <SwiperSlide className="opacity-1" key={index}>
@@ -56,11 +56,15 @@ export default function BannerPage() {
                     </div>
                     <div className=""></div>
                     <div className="mb-[16px]">
-                      <span className="text-white text-[16px] font-normal	">{data.description}</span>
+                      <span className="text-white text-[16px] font-normal	">
+                        {data.description}
+                      </span>
                     </div>
                     <div className="">
                       <button className="flex justify-between items-center gap-[8px] py-[4px] md:py-[8px] px-[8px] md:px-[24px] bg-black">
-                        <span className="text-white text-[16px]">{t("common:buyNow")}</span>
+                        <span className="text-white text-[16px]">
+                          {t("common:buyNow")}
+                        </span>
                         <ArrowForwardIcon sx={{ color: "#fff" }} />
                       </button>
                     </div>

@@ -22,6 +22,7 @@ function* handleLogin(user: LoginForm) {
     yield put(push("/"));
     toast.success("Đăng nhập thành công!");
   } catch (err: any) {
+    console.log("err", err);
     yield put(loginFailed());
     toast("🦄 Sai tên đăng nhập hoặc mật khẩu!", {
       position: "top-right",

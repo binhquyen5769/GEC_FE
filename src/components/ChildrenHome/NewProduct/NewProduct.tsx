@@ -16,7 +16,9 @@ export default function NewProduct() {
     dispatch(fetchProductListStart());
   }, [dispatch]);
   const currentData = useAppSelector(dataProduct);
-  const filterProduct = currentData?.filter((product: any) => product?.new_arrival === true);
+  const filterProduct = currentData?.filter(
+    (product: any) => product?.new_arrival === true
+  );
   const navigate = useNavigate();
   const { t } = useTranslation(["common"]);
 
@@ -37,9 +39,13 @@ export default function NewProduct() {
             >
               <img className="" src={product.image_url.image_url_01} alt="" />
               <div className="pt-[20px]">
-                <div className="text-[16px] font-bold mb-[16px]">{product.product_name}</div>
+                <div className="text-[16px] font-bold mb-[16px]">
+                  {product.product_name}
+                </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[20px] font-semibold">${product.price}</span>
+                  <span className="text-[20px] font-semibold">
+                    ${product.price}
+                  </span>
                   {/* <FiberManualRecordIcon className="dot-transition" sx={{ fontSize: "18px" }} /> */}
                 </div>
               </div>

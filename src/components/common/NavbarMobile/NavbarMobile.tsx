@@ -127,7 +127,7 @@ export default function NavbarMobile() {
                 sx={{ fontSize: "28px", cursor: "pointer" }}
                 className="style-hover-menu"
               />
-              {dataCartUser.length > 0 ? (
+              {dataCartUser?.length > 0 ? (
                 <div className="quantity-product top-[-12px] right-[39px]">{quantityItem}</div>
               ) : (
                 <div className="quantity-product top-[-12px] right-[39px]">0</div>

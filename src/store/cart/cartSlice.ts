@@ -24,7 +24,7 @@ const cartSlice = createSlice({
   reducers: {
     fetchCartStart(state, action: PayloadAction<any>) {
       state.isCartLoading = true;
-      state.cartItems = [...state.cartItems, action.payload];
+      state.cartItems = action.payload;
     },
     fetchCartSuccess(state, action: PayloadAction<any>) {
       state.isCartLoading = false;
@@ -35,7 +35,7 @@ const cartSlice = createSlice({
       state.error = true;
     },
 
-    addCartStart(state, action: PayloadAction<CartItem>) {
+    addCartStart(state, action: PayloadAction<any>) {
       state.isCartLoading = true;
       state.cartItems = action.payload;
     },

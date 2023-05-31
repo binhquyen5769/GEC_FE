@@ -16,7 +16,7 @@ export default function About() {
       setLoading(true);
       try {
         const response: AboutData = await aboutApi?.getDataAbout();
-        setDataAbout(response?.data);
+        setDataAbout(response);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -24,7 +24,7 @@ export default function About() {
     })();
   }, []);
 
-  const currentDataAbout = dataAbout[0];
+  const currentDataAbout = dataAbout;
   const description = currentDataAbout?.information;
   const teamMember = currentDataAbout?.member;
 

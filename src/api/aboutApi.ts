@@ -1,8 +1,9 @@
 import axios from "axios";
+const about = require("./about.postgres.json");
 
 const aboutApi = {
   async getDataAbout() {
-    const response: any = await axios.get("http://localhost:3002/about");
+    const response: any = about;
     return response;
   },
 };

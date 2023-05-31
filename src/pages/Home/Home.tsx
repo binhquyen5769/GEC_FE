@@ -17,7 +17,7 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      dispatch(cartActions.fetchCartStart(idUser));
+      idUser && dispatch(cartActions.fetchCartStart(idUser));
       try {
       } catch (err) {
         console.log(err);

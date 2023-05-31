@@ -14,6 +14,7 @@ const userApi = {
       user_name: data.payload.userName,
       email: data.payload.email,
       password: data.payload.password,
+      cart: [],
     });
     return response;
   },

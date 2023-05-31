@@ -21,6 +21,7 @@ import { cartActions } from "../../store/cart/cartSlice";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { listFavoriteActions } from "../../store/list-favorite/listFavoriteSlice";
 import { listProductFavorite } from "../../store/list-favorite/listFavoriteSlice";
+import { dataProduct } from "../../store/product/productSlice";
 
 export default function ProductDetail() {
   const { t } = useTranslation(["common"]);
@@ -35,6 +36,9 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState<Size>();
   const [selectQuantity, setSelectQuantity] = useState<number>(1);
   const dataUser = useAppSelector(token);
+  const allProduct = useAppSelector(dataProduct);
+  console.log("dataProductDetail", dataProductDetail);
+  console.log("allProduct", allProduct);
   const dispatch = useAppDispatch();
   const listFavoriteProduct = useAppSelector(listProductFavorite);
   const finalFavoriteProduct = listFavoriteProduct?.flat(Infinity);
@@ -50,17 +54,19 @@ export default function ProductDetail() {
     (async () => {
       setLoading(true);
       try {
-        const response: any = await productApi.getProductById(currentIdProduct);
+        const response: any = allProduct?.filter((prod: any) => {
+          return prod.id === +currentIdProduct;
+        });
         setDataProductDetail(response);
         setLoading(false);
       } catch (err) {
         console.log(err);
       }
     })();
-  }, [currentIdProduct]);
+  }, [allProduct, currentIdProduct]);
 
   // DATA PRODUCT DETAILS
-  const productDetail = dataProductDetail?.data;
+  const productDetail = dataProductDetail[0];
 
   // HÀM CHỌN MÀU
   const handleColorSelect = useCallback((color: any) => {
@@ -102,9 +108,9 @@ export default function ProductDetail() {
       productDetail.size.map((size: any) => (
         <span
           key={size.size_name}
-          className={`size-square ${size.isAvailable ? "size-in-stock" : "size-out-stock"} ${
-            size.size_name === selectedSize && "size-active"
-          }`}
+          className={`size-square ${
+            size.isAvailable ? "size-in-stock" : "size-out-stock"
+          } ${size.size_name === selectedSize && "size-active"}`}
           onClick={() => {
             if (size.isAvailable) handleSizeSelect(size.size_name);
           }}
@@ -165,17 +171,23 @@ export default function ProductDetail() {
   // THÊM SẢN PHẨM VÀO WISH-LIST
   const addToFavoriteList = useCallback(
     (e: any) => {
-      dispatch(listFavoriteActions.addProductToFavoriteListStart(productDetail));
+      dispatch(
+        listFavoriteActions.addProductToFavoriteListStart(productDetail)
+      );
     },
     [productDetail]
   );
 
   // LẤY RA ID CỦA TẤT CẢ SẢN PHẨM TRONG WISH LIST
-  const checkId = finalFavoriteProduct.some((item: any) => item.id === currentIdProduct);
+  const checkId = finalFavoriteProduct.some(
+    (item: any) => item.id === currentIdProduct
+  );
 
   const removeFromFavoriteList = useCallback(
     (e: any) => {
-      dispatch(listFavoriteActions.removeProductFromFavoriteStart(currentIdProduct));
+      dispatch(
+        listFavoriteActions.removeProductFromFavoriteStart(currentIdProduct)
+      );
     },
     [currentIdProduct]
   );
@@ -194,33 +206,52 @@ export default function ProductDetail() {
                     loop={true}
                     spaceBetween={10}
                     thumbs={{
-                      swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
+                      swiper:
+                        thumbsSwiper && !thumbsSwiper.destroyed
+                          ? thumbsSwiper
+                          : null,
                     }}
                     modules={[FreeMode, Navigation, Thumbs]}
                     grabCursor={true}
-                    autoplay={{
-                      delay: 4000,
-                      disableOnInteraction: false,
-                    }}
+                    // autoplay={{
+                    //   delay: 4000,
+                    //   disableOnInteraction: false,
+                    // }}
                   >
                     <SwiperSlide className="opacity-1">
                       <div className="">
-                        <img className="" src={productDetail?.image_url?.image_url_01} alt="" />
+                        <img
+                          className=""
+                          src={productDetail?.image_url?.image_url_01}
+                          alt=""
+                        />
                       </div>
                     </SwiperSlide>
                     <SwiperSlide className="opacity-1">
                       <div className="">
-                        <img className="" src={productDetail?.image_url?.image_url_02} alt="" />
+                        <img
+                          className=""
+                          src={productDetail?.image_url?.image_url_02}
+                          alt=""
+                        />
                       </div>
                     </SwiperSlide>
                     <SwiperSlide className="opacity-1">
                       <div className="">
-                        <img className="" src={productDetail?.image_url?.image_url_03} alt="" />
+                        <img
+                          className=""
+                          src={productDetail?.image_url?.image_url_03}
+                          alt=""
+                        />
                       </div>
                     </SwiperSlide>
                     <SwiperSlide className="opacity-1">
                       <div className="">
-                        <img className="" src={productDetail?.image_url?.image_url_04} alt="" />
+                        <img
+                          className=""
+                          src={productDetail?.image_url?.image_url_04}
+                          alt=""
+                        />
                       </div>
                     </SwiperSlide>
                   </Swiper>
@@ -235,10 +266,10 @@ export default function ProductDetail() {
                     slidesPerView={4}
                     freeMode={true}
                     watchSlidesProgress={true}
-                    autoplay={{
-                      delay: 4000,
-                      disableOnInteraction: false,
-                    }}
+                    // autoplay={{
+                    //   delay: 4000,
+                    //   disableOnInteraction: false,
+                    // }}
                     modules={[FreeMode, Navigation, Thumbs]}
                   >
                     <SwiperSlide className="">
@@ -287,7 +318,9 @@ export default function ProductDetail() {
                   </div>
                 </div>
                 <div className="mb-[16px]">
-                  <span className="text-[30px] text-[#212529]">{productDetail?.price}$</span>
+                  <span className="text-[30px] text-[#212529]">
+                    {productDetail?.price}$
+                  </span>
                 </div>
                 <div className="mb-[16px]">
                   <span className="">
@@ -299,7 +332,9 @@ export default function ProductDetail() {
                 <div className="flex mb-[16px]">{colorBar}</div>
 
                 {/* CHỌN SIZE */}
-                <div className="flex flex-wrap gap-[10px] mb-[20px]">{sizeBar}</div>
+                <div className="flex flex-wrap gap-[10px] mb-[20px]">
+                  {sizeBar}
+                </div>
 
                 {/* THÊM VÀO DANH SÁCH YÊU THÍCH */}
                 {checkId ? (
@@ -348,7 +383,9 @@ export default function ProductDetail() {
                       onClick={handleAddToCart}
                       className="text-[#dc3545] hover:text-white  bg-white hover:bg-[#dc3545] border-[1px] border-[#dc3545] border-solid px-[16px] py-[8px] rounded-[8px] transition-button"
                     >
-                      <span className="text-[18px] font-semibold">{t("common:addToCart")}</span>
+                      <span className="text-[18px] font-semibold">
+                        {t("common:addToCart")}
+                      </span>
                     </button>
                   </div>
 
@@ -365,22 +402,49 @@ export default function ProductDetail() {
                 <div className="mt-[40px]">
                   <div className="font-semibold">{t("common:description")}</div>
                   <div className="flex flex-col">
-                    <span className="">{productDetail?.description?.description_1}</span>
                     <span className="">
-                      {productDetail?.description?.description_2?.description_2_1}
-                      <p>{productDetail?.description?.description_2?.description_2_2}</p>
-                      <p>{productDetail?.description?.description_2?.description_2_3}</p>
+                      {productDetail?.description?.description_1}
                     </span>
                     <span className="">
-                      {productDetail?.description?.description_3?.description_3_1}
+                      {
+                        productDetail?.description?.description_2
+                          ?.description_2_1
+                      }
+                      <p>
+                        {
+                          productDetail?.description?.description_2
+                            ?.description_2_2
+                        }
+                      </p>
+                      <p>
+                        {
+                          productDetail?.description?.description_2
+                            ?.description_2_3
+                        }
+                      </p>
+                    </span>
+                    <span className="">
+                      {
+                        productDetail?.description?.description_3
+                          ?.description_3_1
+                      }
                       <p className="">
-                        {productDetail?.description?.description_3?.description_3_2}
+                        {
+                          productDetail?.description?.description_3
+                            ?.description_3_2
+                        }
                       </p>
                       <p className="">
-                        {productDetail?.description?.description_3?.description_3_3}
+                        {
+                          productDetail?.description?.description_3
+                            ?.description_3_3
+                        }
                       </p>
                       <p className="">
-                        {productDetail?.description?.description_3?.description_3_4}
+                        {
+                          productDetail?.description?.description_3
+                            ?.description_3_4
+                        }
                       </p>
                     </span>
                   </div>
