@@ -6,7 +6,7 @@ import "swiper/css/thumbs";
 import "swiper/css/bundle";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import RelatedProduct from "../../components/ChildrenProduct/RelatedProduct/RelatedProduct";
-import FeedBack from "../../components/ChildrenProduct/FeedBack/FeedBack";
+// import FeedBack from "../../components/ChildrenProduct/FeedBack/FeedBack";
 import { useParams } from "react-router-dom";
 import productApi from "../../api/productApi";
 import LoadingModal from "../../components/Loading/Loading";
@@ -37,8 +37,6 @@ export default function ProductDetail() {
   const [selectQuantity, setSelectQuantity] = useState<number>(1);
   const dataUser = useAppSelector(token);
   const allProduct = useAppSelector(dataProduct);
-  console.log("dataProductDetail", dataProductDetail);
-  console.log("allProduct", allProduct);
   const dispatch = useAppDispatch();
   const listFavoriteProduct = useAppSelector(listProductFavorite);
   const finalFavoriteProduct = listFavoriteProduct?.flat(Infinity);
@@ -67,9 +65,11 @@ export default function ProductDetail() {
 
   // DATA PRODUCT DETAILS
   const productDetail = dataProductDetail[0];
+  console.log("productDetail", productDetail);
 
   // HÀM CHỌN MÀU
   const handleColorSelect = useCallback((color: any) => {
+    console.log("color", color);
     setSelectedColor(color);
   }, []);
 
@@ -77,22 +77,22 @@ export default function ProductDetail() {
   const colorBar = useMemo(
     () =>
       productDetail &&
-      productDetail.color.map(
-        (color: any) =>
-          color.isAvailable && (
-            <div key={color.color_name}>
-              <CircleIcon
-                className={`circle-style ${
-                  color.color_name === selectedColor && "circle-style-active"
-                }`}
-                onClick={() => {
-                  if (color.isAvailable) handleColorSelect(color.color_name);
-                }}
-                sx={{ color: `${color.color_name}`, fontSize: "26px" }}
-              />
-            </div>
-          )
-      ),
+      JSON.parse(productDetail.color).map((color: any) => {
+        console.log("color", color);
+        return (
+          <div key={color}>
+            <CircleIcon
+              className={`circle-style ${
+                color === selectedColor && "circle-style-active"
+              }`}
+              onClick={() => {
+                handleColorSelect(color);
+              }}
+              sx={{ color: `${color}`, fontSize: "26px" }}
+            />
+          </div>
+        );
+      }),
     [productDetail, selectedColor]
   );
 
@@ -102,24 +102,24 @@ export default function ProductDetail() {
   }, []);
 
   // THANH SIZE
-  const sizeBar = useMemo(
-    () =>
-      productDetail &&
-      productDetail.size.map((size: any) => (
-        <span
-          key={size.size_name}
-          className={`size-square ${
-            size.isAvailable ? "size-in-stock" : "size-out-stock"
-          } ${size.size_name === selectedSize && "size-active"}`}
-          onClick={() => {
-            if (size.isAvailable) handleSizeSelect(size.size_name);
-          }}
-        >
-          {size.size_name}
-        </span>
-      )),
-    [productDetail, selectedSize]
-  );
+  // const sizeBar = useMemo(
+  //   () =>
+  //     productDetail &&
+  //     productDetail.size.map((size: any) => (
+  //       <span
+  //         key={size.size_name}
+  //         className={`size-square ${
+  //           size.isAvailable ? "size-in-stock" : "size-out-stock"
+  //         } ${size.size_name === selectedSize && "size-active"}`}
+  //         onClick={() => {
+  //           if (size.isAvailable) handleSizeSelect(size.size_name);
+  //         }}
+  //       >
+  //         {size.size_name}
+  //       </span>
+  //     )),
+  //   [productDetail, selectedSize]
+  // );
 
   // HÀM TĂNG SỐ LƯỢNG
   const handleIncreaseQuantity = useCallback(() => {
@@ -149,21 +149,20 @@ export default function ProductDetail() {
       toast.warning(`${t("common:selectOneColor")}`);
       return;
     }
-    if (!selectedSize) {
-      toast.warning(`${t("common:selectOneSize")}`);
-      return;
-    }
-    if (dataUser && selectedColor && selectedSize) {
+    // if (!selectedSize) {
+    //   toast.warning(`${t("common:selectOneSize")}`);
+    //   return;
+    // }
+    if (dataUser && selectedColor /* && selectedSize */) {
       const cartItem: CartItem = {
         id: productDetail.id,
-        product_name: productDetail.product_name,
-        image_url: productDetail.image_url.image_url_01,
+        product_name: productDetail.name,
+        image_url: JSON.parse(productDetail.image_url)[0],
         price: productDetail.price,
         quantity: selectQuantity,
         color: selectedColor,
-        size: selectedSize,
+        // size: selectedSize,
       };
-      // console.log(cartItem);
       dispatch(cartActions.addCartStart(cartItem));
     }
   }, [dataUser, selectQuantity, selectedColor, selectedSize]);
@@ -218,7 +217,23 @@ export default function ProductDetail() {
                     //   disableOnInteraction: false,
                     // }}
                   >
-                    <SwiperSlide className="opacity-1">
+                    {JSON.parse(productDetail.image_url).map((item: any) => {
+                      return (
+                        <SwiperSlide className="opacity-1">
+                          <div className="">
+                            <img
+                              className=""
+                              src={item}
+                              alt=""
+                              style={{
+                                width: "100%",
+                              }}
+                            />
+                          </div>
+                        </SwiperSlide>
+                      );
+                    })}
+                    {/* <SwiperSlide className="opacity-1">
                       <div className="">
                         <img
                           className=""
@@ -253,7 +268,7 @@ export default function ProductDetail() {
                           alt=""
                         />
                       </div>
-                    </SwiperSlide>
+                    </SwiperSlide> */}
                   </Swiper>
                 </div>
 
@@ -272,42 +287,15 @@ export default function ProductDetail() {
                     // }}
                     modules={[FreeMode, Navigation, Thumbs]}
                   >
-                    <SwiperSlide className="">
-                      <div className="">
-                        <img
-                          className="swiper-slide swiper-slide-thumb-active"
-                          src={productDetail?.image_url?.image_url_01}
-                          alt=""
-                        />
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide className="">
-                      <div className="">
-                        <img
-                          className="swiper-slide swiper-slide-thumb-active"
-                          src={productDetail?.image_url?.image_url_02}
-                          alt=""
-                        />
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide className="">
-                      <div className="">
-                        <img
-                          className="swiper-slide swiper-slide-thumb-active"
-                          src={productDetail?.image_url?.image_url_03}
-                          alt=""
-                        />
-                      </div>
-                    </SwiperSlide>
-                    <SwiperSlide className="">
-                      <div className="">
-                        <img
-                          className="swiper-slide swiper-slide-thumb-active"
-                          src={productDetail?.image_url?.image_url_04}
-                          alt=""
-                        />
-                      </div>
-                    </SwiperSlide>
+                    {JSON.parse(productDetail.image_url).map((item: any) => {
+                      return (
+                        <SwiperSlide className="opacity-1">
+                          <div className="">
+                            <img className="" src={item} alt="" />
+                          </div>
+                        </SwiperSlide>
+                      );
+                    })}
                   </Swiper>
                 </div>
               </div>
@@ -324,7 +312,7 @@ export default function ProductDetail() {
                 </div>
                 <div className="mb-[16px]">
                   <span className="">
-                    {t("product:quantity")}: {productDetail?.quantity}
+                    {t("product:quantity")}: {productDetail?.quatity}
                   </span>
                 </div>
 
@@ -332,9 +320,9 @@ export default function ProductDetail() {
                 <div className="flex mb-[16px]">{colorBar}</div>
 
                 {/* CHỌN SIZE */}
-                <div className="flex flex-wrap gap-[10px] mb-[20px]">
+                {/* <div className="flex flex-wrap gap-[10px] mb-[20px]">
                   {sizeBar}
-                </div>
+                </div> */}
 
                 {/* THÊM VÀO DANH SÁCH YÊU THÍCH */}
                 {checkId ? (
@@ -403,9 +391,9 @@ export default function ProductDetail() {
                   <div className="font-semibold">{t("common:description")}</div>
                   <div className="flex flex-col">
                     <span className="">
-                      {productDetail?.description?.description_1}
+                      {JSON.parse(productDetail?.description)}
                     </span>
-                    <span className="">
+                    {/* <span className="">
                       {
                         productDetail?.description?.description_2
                           ?.description_2_1
@@ -446,7 +434,7 @@ export default function ProductDetail() {
                             ?.description_3_4
                         }
                       </p>
-                    </span>
+                    </span> */}
                   </div>
                 </div>
               </div>
@@ -456,7 +444,7 @@ export default function ProductDetail() {
             <RelatedProduct />
 
             {/* ĐÁNH GIÁ */}
-            {productDetail && <FeedBack productDetail={productDetail} />}
+            {/* {productDetail && <FeedBack productDetail={productDetail} />} */}
           </div>
         </div>
       )}

@@ -7,7 +7,7 @@ export interface CartItem {
   price: number;
   quantity: number;
   color: Color;
-  size: Size;
+  size?: Size;
 }
 
 export interface Cart {
