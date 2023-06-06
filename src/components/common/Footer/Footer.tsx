@@ -1,4 +1,4 @@
-import logoFooter from "../../../assets/images/logoFooter.png";
+import logoFooter from "../../../assets/images/logoHeader.png";
 import payment from "../../../assets/images/payment.png";
 import MailIcon from "@mui/icons-material/Mail";
 import { Link } from "react-router-dom";
@@ -11,10 +11,17 @@ export default function Footer() {
           <div className="container mx-auto block md:grid md:grid-rows-2 md:grid-cols-2 xl:grid-cols-4 xl:grid-rows-1">
             <div className="px-[12px] mb-[30px]">
               <Link to="/">
-                <img src={logoFooter} alt="" />
+                <img
+                  src={logoFooter}
+                  alt=""
+                  style={{
+                    height: "100px",
+                  }}
+                />
               </Link>
               <div className="mt-[30px] style-text-footer">
-                The customer is at the heart of our unique business model, which includes design.
+                The customer is at the heart of our unique business model, which
+                includes design.
               </div>
               <div className="mt-[30px]">
                 <img src={payment} alt="" />
@@ -41,7 +48,8 @@ export default function Footer() {
             <div className="px-[12px] pb-[30px]">
               <div className="title-footer">NEWLETTER</div>
               <div className="style-text-footer">
-                Be the first to know about new arrivals, look books, sales & promos!
+                Be the first to know about new arrivals, look books, sales &
+                promos!
               </div>
               <div className="mt-[20px] xl:mt-0 relative">
                 <input

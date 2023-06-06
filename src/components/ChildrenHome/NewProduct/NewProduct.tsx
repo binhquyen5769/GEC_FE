@@ -62,7 +62,12 @@ export default function NewProduct() {
           })}
         </div>
         <div className="  xl:flex justify-center my-[30px]">
-          <img src={beforeFooter} alt="" />
+          <img
+            src={
+              "https://anh.quatructuyen.com/media/wysiwyg/quatt/banner8-3_1.jpg"
+            }
+            alt=""
+          />
         </div>
       </div>
     </>

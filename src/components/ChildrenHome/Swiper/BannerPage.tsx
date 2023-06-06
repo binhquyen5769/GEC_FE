@@ -60,14 +60,14 @@ export default function BannerPage() {
                         {data.description}
                       </span>
                     </div>
-                    <div className="">
+                    {/* <div className="">
                       <button className="flex justify-between items-center gap-[8px] py-[4px] md:py-[8px] px-[8px] md:px-[24px] bg-black">
                         <span className="text-white text-[16px]">
                           {t("common:buyNow")}
                         </span>
                         <ArrowForwardIcon sx={{ color: "#fff" }} />
                       </button>
-                    </div>
+                    </div> */}
                     <div className="absolute top-[92%] flex gap-[40px] text-white">
                       <Link to="/">
                         <FacebookIcon sx={{ fontSize: "22px" }} />
