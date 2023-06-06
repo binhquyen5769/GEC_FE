@@ -61,7 +61,7 @@ export default function NewProduct() {
             );
           })}
         </div>
-        <div className="hidden xl:flex justify-center my-[30px]">
+        <div className="  xl:flex justify-center my-[30px]">
           <img src={beforeFooter} alt="" />
         </div>
       </div>

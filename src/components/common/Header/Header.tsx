@@ -76,7 +76,7 @@ export default function Header() {
       <div className="fixed top-0 z-[10] w-full">
         <div className="w-full bg-white shadow-[0_1px_6px_0_rgba(32,33,36,0.28)] transition-header">
           {/* Header >768px */}
-          <div className="hidden h-[40px] lg:flex bg-black w-full">
+          <div className="h-[40px] lg:flex bg-black w-full">
             <div className="container mx-auto flex gap-[14px] py-2 px-[12px] xl:px-0 justify-end items-center">
               <select
                 className="bg-black outline-0 border-0 text-white cursor-pointer"
@@ -135,7 +135,7 @@ export default function Header() {
                   style={{ width: "150px" }}
                 />
               </Link>
-              <div className="hidden lg:flex gap-[26px] text-header">
+              <div className="lg:flex gap-[26px] text-header">
                 <Link to="/" className="style-hover-menu">
                   {t("common:home")}
                 </Link>
@@ -153,7 +153,7 @@ export default function Header() {
                   {t("header:about")}
                 </Link>
               </div>
-              <div className="relative hidden lg:flex gap-[18px]">
+              <div className="relative lg:flex gap-[18px]">
                 <div>
                   <SearchComponent />
                 </div>
