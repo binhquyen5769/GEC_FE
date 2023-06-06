@@ -12,6 +12,7 @@ import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 import SearchComponent from "../../SearchComponent/SearchComponent";
 import { dataCart } from "../../../store/cart/cartSlice";
+import { Dropdown, Button } from "antd";
 
 export default function Header() {
   const userInfo = useAppSelector(token);
@@ -24,9 +25,12 @@ export default function Header() {
   const { t } = useTranslation(["common", "header", "product", "order"]);
 
   // CHANGE LANGUAGE
-  const handleLanguageChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    i18n.changeLanguage(e.target.value);
-  }, []);
+  const handleLanguageChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      i18n.changeLanguage(e.target.value);
+    },
+    []
+  );
 
   // GET VALUE LANGUAGE
   useEffect(() => {
@@ -39,10 +43,33 @@ export default function Header() {
   // COUNT QUATITY ITEMS
   useEffect(() => {
     if (dataCartUser?.length > 0) {
-      const quantity = dataCartUser.reduce((acc: any, curValue: any) => acc + curValue.quantity, 0);
+      const quantity = dataCartUser.reduce(
+        (acc: any, curValue: any) => acc + curValue.quantity,
+        0
+      );
       setQuantityItem(quantity);
     }
   }, [dataCartUser]);
+
+  const items_1 = ["Chị em gái", "Nữ giới", "Vợ", "Bạn gái", "Người yêu"];
+  const items_2 = [
+    "20/10",
+    "Kỉ niệm ngày cưới",
+    "Kỉ niệm ngày yêu",
+    "Lần đầu hẹn hò",
+    "Tỏ tình",
+    "Valentine",
+  ];
+  const renderItem = (arrayItem: any[]) => {
+    return arrayItem.map((item, index) => ({
+      key: index,
+      label: (
+        <Link to="/store/shirt" className="style-hover-menu">
+          {item}
+        </Link>
+      ),
+    }));
+  };
 
   return (
     <>
@@ -83,7 +110,9 @@ export default function Header() {
                         onClick={handleLogout}
                         className="style-button-logout px-[12px] py-[6px] rounded-[6px]"
                       >
-                        <span className="text-white font-medium">{t("common:logout")}</span>
+                        <span className="text-white font-medium">
+                          {t("common:logout")}
+                        </span>
                       </button>
                     </div>
                   </ul>
@@ -99,18 +128,27 @@ export default function Header() {
           <div className="container px-[12px] mx-auto">
             <div className="flex justify-between items-center	h-[74px] ">
               <Link to="/">
-                <img className="" src={logoHeader} alt="" />
+                <img
+                  className=""
+                  src={logoHeader}
+                  alt=""
+                  style={{ width: "150px" }}
+                />
               </Link>
               <div className="hidden lg:flex gap-[26px] text-header">
                 <Link to="/" className="style-hover-menu">
                   {t("common:home")}
                 </Link>
-                <Link to="/store/shirt" className="style-hover-menu">
-                  {t("product:shirt")}
-                </Link>
-                <Link to="/store/pants" className="style-hover-menu">
-                  {t("product:pants")}
-                </Link>
+                <Dropdown menu={{ items: renderItem(items_1) }}>
+                  <Link to="/store/shirt" className="style-hover-menu">
+                    Bạn tặng ai?
+                  </Link>
+                </Dropdown>
+                <Dropdown menu={{ items: renderItem(items_2) }}>
+                  <Link to="/store/pants" className="style-hover-menu">
+                    Nhân ngày gì?
+                  </Link>
+                </Dropdown>
                 <Link to="/about" className="style-hover-menu">
                   {t("header:about")}
                 </Link>
@@ -120,14 +158,24 @@ export default function Header() {
                   <SearchComponent />
                 </div>
                 <Link to="/wish-list">
-                  <FavoriteIcon className="style-hover-menu" sx={{ fontSize: "30px" }} />
+                  <FavoriteIcon
+                    className="style-hover-menu"
+                    sx={{ fontSize: "30px" }}
+                  />
                 </Link>
                 <Link to="/shopping-cart">
-                  <ShoppingCartIcon className="style-hover-menu" sx={{ fontSize: "30px" }} />
+                  <ShoppingCartIcon
+                    className="style-hover-menu"
+                    sx={{ fontSize: "30px" }}
+                  />
                   {dataCartUser?.length > 0 ? (
-                    <div className="quantity-product right-[-12px] top-[-12px]">{quantityItem}</div>
+                    <div className="quantity-product right-[-12px] top-[-12px]">
+                      {quantityItem}
+                    </div>
                   ) : (
-                    <div className="quantity-product right-[-12px] top-[-12px]">0</div>
+                    <div className="quantity-product right-[-12px] top-[-12px]">
+                      0
+                    </div>
                   )}
                 </Link>
               </div>

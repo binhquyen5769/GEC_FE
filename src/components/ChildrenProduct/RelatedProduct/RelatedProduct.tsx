@@ -73,7 +73,7 @@ export default function RelatedProduct() {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-[20px] font-semibold">
-                      ${product.price}
+                      {product.price} VNĐ
                     </span>
                     {/* <FiberManualRecordIcon className="dot-transition" sx={{ fontSize: "18px" }} /> */}
                   </div>

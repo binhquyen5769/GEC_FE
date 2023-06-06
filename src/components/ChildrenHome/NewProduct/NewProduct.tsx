@@ -44,7 +44,7 @@ export default function NewProduct() {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-[20px] font-semibold">
-                      ${product.price}
+                      {product.price} VND
                     </span>
                     {/* <FiberManualRecordIcon className="dot-transition" sx={{ fontSize: "18px" }} /> */}
                   </div>

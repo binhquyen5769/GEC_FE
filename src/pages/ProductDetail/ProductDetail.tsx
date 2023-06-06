@@ -307,7 +307,7 @@ export default function ProductDetail() {
                 </div>
                 <div className="mb-[16px]">
                   <span className="text-[30px] text-[#212529]">
-                    {productDetail?.price}$
+                    {productDetail?.price} VNĐ
                   </span>
                 </div>
                 <div className="mb-[16px]">
