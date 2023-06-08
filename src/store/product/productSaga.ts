@@ -11,6 +11,7 @@ function* fetchProductList() {
     const { data } = yield call(productApi.getAllProduct);
     yield put(fetchproductListSuccess(data));
   } catch (err) {
+    console.log("err", err);
     yield put(fetchProductListFailed());
     console.log("LẤY TẤT CẢ SẢN PHẨM THẤT BẠI");
   }

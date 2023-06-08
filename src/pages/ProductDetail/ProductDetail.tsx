@@ -22,6 +22,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { listFavoriteActions } from "../../store/list-favorite/listFavoriteSlice";
 import { listProductFavorite } from "../../store/list-favorite/listFavoriteSlice";
 import { dataProduct } from "../../store/product/productSlice";
+import { isEmpty } from "lodash";
 
 export default function ProductDetail() {
   const { t } = useTranslation(["common"]);
@@ -52,10 +53,12 @@ export default function ProductDetail() {
     (async () => {
       setLoading(true);
       try {
-        const response: any = allProduct?.filter((prod: any) => {
-          return prod.id === +currentIdProduct;
-        });
-        setDataProductDetail(response);
+        const { data }: any = await productApi.getProductById(currentIdProduct);
+        console.log("data", data);
+        // const response: any = allProduct?.filter((prod: any) => {
+        //   return prod.id === +currentIdProduct;
+        // });
+        setDataProductDetail(data);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -64,8 +67,7 @@ export default function ProductDetail() {
   }, [allProduct, currentIdProduct]);
 
   // DATA PRODUCT DETAILS
-  const productDetail = dataProductDetail[0];
-  console.log("productDetail", productDetail);
+  const productDetail = dataProductDetail;
 
   // HÀM CHỌN MÀU
   const handleColorSelect = useCallback((color: any) => {
@@ -76,8 +78,8 @@ export default function ProductDetail() {
   // THANH MÀU
   const colorBar = useMemo(
     () =>
-      productDetail &&
-      JSON.parse(productDetail.color).map((color: any) => {
+      productDetail.lenght > 0 &&
+      productDetail.color.map((color: any) => {
         console.log("color", color);
         return (
           <div key={color}>
@@ -93,7 +95,12 @@ export default function ProductDetail() {
           </div>
         );
       }),
-    [productDetail, selectedColor]
+    [
+      handleColorSelect,
+      productDetail.color,
+      productDetail.lenght,
+      selectedColor,
+    ]
   );
 
   // HÀM CHỌN SIZE
@@ -157,7 +164,7 @@ export default function ProductDetail() {
       const cartItem: CartItem = {
         id: productDetail.id,
         product_name: productDetail.name,
-        image_url: JSON.parse(productDetail.image_url)[0],
+        image_url: productDetail.image_url[0],
         price: productDetail.price,
         quantity: selectQuantity,
         color: selectedColor,
@@ -194,7 +201,7 @@ export default function ProductDetail() {
   return (
     <>
       {loading && <LoadingModal />}
-      {productDetail && (
+      {productDetail && !isEmpty(productDetail) && (
         <div className="lg:pt-[10px]">
           <div className="container mx-auto px-[12px]">
             <div className="block xl:flex xl:gap-[50px]">
@@ -217,7 +224,7 @@ export default function ProductDetail() {
                     //   disableOnInteraction: false,
                     // }}
                   >
-                    {JSON.parse(productDetail.image_url).map((item: any) => {
+                    {productDetail.image_url.map((item: any) => {
                       return (
                         <SwiperSlide className="opacity-1">
                           <div className="">
@@ -287,7 +294,7 @@ export default function ProductDetail() {
                     // }}
                     modules={[FreeMode, Navigation, Thumbs]}
                   >
-                    {JSON.parse(productDetail.image_url).map((item: any) => {
+                    {productDetail.image_url.map((item: any) => {
                       return (
                         <SwiperSlide className="opacity-1">
                           <div className="">
@@ -390,9 +397,7 @@ export default function ProductDetail() {
                 <div className="mt-[40px]">
                   <div className="font-semibold">{t("common:description")}</div>
                   <div className="flex flex-col">
-                    <span className="">
-                      {JSON.parse(productDetail?.description)}
-                    </span>
+                    <span className="">{productDetail?.description}</span>
                     {/* <span className="">
                       {
                         productDetail?.description?.description_2
