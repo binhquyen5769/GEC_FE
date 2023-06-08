@@ -78,7 +78,7 @@ export default function ProductDetail() {
   // THANH MÀU
   const colorBar = useMemo(
     () =>
-      productDetail.lenght > 0 &&
+      !isEmpty(productDetail) &&
       productDetail.color.map((color: any) => {
         console.log("color", color);
         return (
@@ -309,7 +309,7 @@ export default function ProductDetail() {
               <div className="xl:flex-[0_0_auto] xl:w-[50%] xl:pt-[60px]">
                 <div className="">
                   <div className="text-[36px] text-[#111] font-semibold mb-[25px] uppercase">
-                    {productDetail?.product_name}
+                    {productDetail?.name}
                   </div>
                 </div>
                 <div className="mb-[16px]">
@@ -319,7 +319,7 @@ export default function ProductDetail() {
                 </div>
                 <div className="mb-[16px]">
                   <span className="">
-                    {t("product:quantity")}: {productDetail?.quatity}
+                    {t("product:quantity")}: {productDetail?.quantity}
                   </span>
                 </div>
 
