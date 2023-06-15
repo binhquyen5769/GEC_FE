@@ -7,6 +7,9 @@ import {
   logOutFailed,
   logOutSuccess,
   logOutStart,
+  getAllUserSuccess,
+  getAllUserFailed,
+  getAllUserStart,
 } from "./authSlice";
 import { push } from "redux-first-history";
 import userApi from "../../api/userApi";
@@ -68,7 +71,18 @@ function* handleLogOut() {
   }
 }
 
+function* getAllUsers(role: any) {
+  try {
+    const { data } = yield call(userApi.getAllUsers);
+    yield put(getAllUserSuccess(data));
+  } catch (err) {
+    console.log(err);
+    yield put(getAllUserFailed());
+  }
+}
+
 export default function* authSaga() {
   yield takeLeading(loginStart.type, handleLogin);
   yield takeLeading(logOutStart.type, handleLogOut);
+  yield takeLeading(getAllUserStart.type, getAllUsers);
 }

@@ -1,7 +1,7 @@
-import SearchIcon from "@mui/icons-material/Search";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import beforeFooter from "../../../assets/images/beforeFooter.png";
+// import SearchIcon from "@mui/icons-material/Search";
+// import FavoriteIcon from "@mui/icons-material/Favorite";
+// import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+// import beforeFooter from "../../../assets/images/beforeFooter.png";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../../store/hooks/hooks";
 import { fetchProductListStart } from "../../../store/product/productSlice";

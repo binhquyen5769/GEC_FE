@@ -17,6 +17,7 @@ export interface AuthState {
   isFetching: boolean;
   token?: any;
   error: boolean;
+  allUsers?: [];
 }
 
 export interface LoginState {
@@ -28,6 +29,7 @@ const initialState: AuthState = {
   isFetching: false,
   token: null,
   error: false,
+  allUsers: [],
 };
 
 const authSlice = createSlice({
@@ -58,12 +60,32 @@ const authSlice = createSlice({
       state.isFetching = false;
       state.error = true;
     },
+    getAllUserStart: (state) => {
+      state.isFetching = true;
+    },
+    getAllUserSuccess: (state, action: PayloadAction<any>) => {
+      state.isFetching = false;
+      state.allUsers = action.payload;
+    },
+    getAllUserFailed: (state) => {
+      state.isFetching = false;
+      state.error = true;
+    },
   },
 });
 
 // EXPORT ACTIONS
-export const { loginStart, loginSuccess, loginFailed, logOutStart, logOutSuccess, logOutFailed } =
-  authSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailed,
+  logOutStart,
+  logOutSuccess,
+  logOutFailed,
+  getAllUserStart,
+  getAllUserSuccess,
+  getAllUserFailed,
+} = authSlice.actions;
 
 // EXPORT REDUCER
 const authReducer = authSlice.reducer;
@@ -71,3 +93,4 @@ export default authReducer;
 
 // SELECTOR
 export const token = (state: RootState) => state.auth.token;
+export const userSelector = (state: RootState) => state.auth.allUsers;

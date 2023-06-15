@@ -7,6 +7,17 @@ import { useTranslation } from "react-i18next";
 export default function NavbarProduct() {
   const { t } = useTranslation(["product"]);
 
+  const items_1 = ["Chị em gái", "Nữ giới", "Vợ", "Bạn gái", "Người yêu"];
+
+  const items_2 = [
+    "20/10",
+    "Kỉ niệm ngày cưới",
+    "Kỉ niệm ngày yêu",
+    "Lần đầu hẹn hò",
+    "Tỏ tình",
+    "Valentine",
+  ];
+
   return (
     <>
       <div className="pb-[12px]">
@@ -14,15 +25,14 @@ export default function NavbarProduct() {
           <Accordion className="box-shadow-none ">
             <AccordionSummary className="shirt-01">
               <div className="uppercase cursor-pointer font-bold text-[18px]">
-                {t("product:shirt")}
+                Đối tượng
               </div>
             </AccordionSummary>
             <AccordionDetails className="shirt-00">
               <ul className="text-[16px] font-medium">
-                <li className="style-hover-menu">{t("product:shirt")}</li>
-                <li className="style-hover-menu">{t("product:t-shirt")}</li>
-                <li className="style-hover-menu">{t("product:hoodie")}</li>
-                <li className="style-hover-menu">{t("product:jacket")}</li>
+                {items_1.map((item) => (
+                  <li className="style-hover-menu">{item}</li>
+                ))}
               </ul>
             </AccordionDetails>
           </Accordion>
@@ -33,15 +43,14 @@ export default function NavbarProduct() {
           <Accordion className="box-shadow-none ">
             <AccordionSummary className="shirt-01">
               <div className="uppercase cursor-pointer font-bold text-[18px]">
-                {t("product:pants")}
+                Ngày lễ
               </div>
             </AccordionSummary>
             <AccordionDetails className="shirt-00">
               <ul className="text-[16px] font-medium">
-                <li className="style-hover-menu">{t("product:pants")}</li>
-                <li className="style-hover-menu">{t("product:jeans")}</li>
-                <li className="style-hover-menu">{t("product:pants-item")}</li>
-                <li className="style-hover-menu">{t("product:short")}</li>
+                {items_2.map((item) => (
+                  <li className="style-hover-menu">{item}</li>
+                ))}
               </ul>
             </AccordionDetails>
           </Accordion>

@@ -54,7 +54,6 @@ export default function ProductDetail() {
       setLoading(true);
       try {
         const { data }: any = await productApi.getProductById(currentIdProduct);
-        console.log("data", data);
         // const response: any = allProduct?.filter((prod: any) => {
         //   return prod.id === +currentIdProduct;
         // });
@@ -79,10 +78,10 @@ export default function ProductDetail() {
   const colorBar = useMemo(
     () =>
       !isEmpty(productDetail) &&
-      productDetail.color.map((color: any) => {
+      productDetail.color.map((color: any, index: number) => {
         console.log("color", color);
         return (
-          <div key={color}>
+          <div key={index}>
             <CircleIcon
               className={`circle-style ${
                 color === selectedColor && "circle-style-active"

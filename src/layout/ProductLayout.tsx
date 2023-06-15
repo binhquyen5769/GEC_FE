@@ -3,8 +3,8 @@ import Footer from "../components/common/Footer/Footer";
 import Header from "../components/common/Header/Header";
 import NavbarProduct from "../components/LayoutProduct/NavbarProduct/NavbarProduct";
 import BreadCrumbs from "../components/LayoutProduct/BreadCrumbs/BreadCrumbs";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
+// import Pagination from "@mui/material/Pagination";
+// import Stack from "@mui/material/Stack";
 
 export default function MainLayout() {
   return (
@@ -18,16 +18,6 @@ export default function MainLayout() {
           </div>
           <div className="xl:basis-[75%] px-[12px]">
             <Outlet />
-            <div className="flex justify-center items-center pb-[30px]">
-              <Stack spacing={2}>
-                <Pagination
-                  sx={{ backgroundColor: "#fff" }}
-                  count={2}
-                  variant="outlined"
-                  shape="rounded"
-                />
-              </Stack>
-            </div>
           </div>
         </div>
         {/* <Outlet context={user} /> */}

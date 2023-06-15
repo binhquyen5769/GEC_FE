@@ -23,6 +23,12 @@ const userApi = {
     const response = await axios.get(`http://localhost:3002/users/cart/${id}`);
     return response;
   },
+
+  async getAllUsers(): Promise<any> {
+    const response = await axios.get(`http://localhost:3002/users/all`);
+    console.log("response", response);
+    return response;
+  },
 };
 
 export default userApi;

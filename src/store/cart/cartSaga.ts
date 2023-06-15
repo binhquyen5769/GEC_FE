@@ -26,6 +26,7 @@ function* addProductToCart({ payload }: any) {
       toast.success("Đã thêm sản phẩm vào giỏ");
     }
   } catch (err) {
+    console.log("err", err);
     yield put(cartActions.addCartFailed());
     if (language === "en") {
       toast.success("Added to cart failed");

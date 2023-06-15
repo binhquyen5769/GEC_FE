@@ -18,7 +18,10 @@ export default function ShoppingCart() {
 
   // NHÓM CÁC SẢN PHẨM CÙNG ID, COLOR, SIZE VÀO CÙNG 1 ARRAY KHI USER THÊM SẢN PHẨM VÀO GIỎ HÀNG
   useEffect(() => {
-    const groupProductById = _.groupBy(cartItems, (i) => `"${i.id}+${i.color}+${i.size}"`);
+    const groupProductById = _.groupBy(
+      cartItems,
+      (i) => `"${i.id}+${i.color}+${i.size}"`
+    );
     const arrayProduct = Object.values(groupProductById);
     const newArr = arrayProduct.flat(Infinity);
     setFinalCart(newArr);
@@ -37,16 +40,25 @@ export default function ShoppingCart() {
             <table className="min-w-[850px] table w-full">
               <thead className="border-b-[1px] border-b-[#ccc] border-solid table-header-group">
                 <tr className="table-row outline-0 align-middle">
-                  <th className="table-cell py-[30px] text-left uppercase">{t("order:product")}</th>
-                  <th className="table-cell py-[30px] text-left	uppercase">{t("order:quantity")}</th>
-                  <th className="table-cell py-[30px] text-right uppercase">{t("order:total")}</th>
+                  <th className="table-cell py-[30px] text-left uppercase">
+                    {t("order:product")}
+                  </th>
+                  <th className="table-cell py-[30px] text-left	uppercase">
+                    {t("order:quantity")}
+                  </th>
+                  <th className="table-cell py-[30px] text-right uppercase">
+                    {t("order:total")}
+                  </th>
                   <th className="table-cell py-[30px] text-right uppercase"></th>
                 </tr>
               </thead>
               <tbody className="table-row-group	border-b-[1px] border-b-[#ccc] border-solid">
                 {finalCart.map((data: any, index: any) => {
                   return (
-                    <tr className="table-row outline-0 align-middle" key={index}>
+                    <tr
+                      className="table-row outline-0 align-middle"
+                      key={index}
+                    >
                       <td className="table-cell py-[30px] text-left">
                         <div className="flex gap-[10px]">
                           <div className="flex w-[100px] h-[100px] min-w-[100px] min-h-[100px] max-h-[100px] items-center justify-center ">
@@ -59,7 +71,9 @@ export default function ShoppingCart() {
                             <p className="text-[16px] pb-[16px]">
                               {t("common:variant")}: {data.size}, {data.color}
                             </p>
-                            <p className="text-[18px] font-semibold">${data.price}</p>
+                            <p className="text-[18px] font-semibold">
+                              ${data.price}
+                            </p>
                           </div>
                         </div>
                       </td>
@@ -95,7 +109,7 @@ export default function ShoppingCart() {
           </div>
           <div className="flex flex-col lg:flex-row lg:justify-between gap-[10px]">
             <Link
-              to="/store/shirt"
+              to="/store/sort"
               className="flex justify-center items-center text-center max-w-[250px] px-[35px] py-[14px] text-[14px] uppercase border-[1px] border-solid border-[#ccc] font-bold tracking-[2px]"
             >
               {t("order:continueShoping")}
@@ -111,13 +125,17 @@ export default function ShoppingCart() {
       ) : (
         <div className="py-[100px] container px-[12px] mx-auto">
           <div className="flex flex-col justify-center items-center h-full">
-            <div className="text-[30px] mb-[48px]">{t("common:noItemCart")}</div>
+            <div className="text-[30px] mb-[48px]">
+              {t("common:noItemCart")}
+            </div>
             <div className="">
               <Link
-                to="/store/shirt"
+                to="/store/sort"
                 className="border-[1px] border-solid border-[#ccc] px-[35px] py-[14px]"
               >
-                <span className="font-semibold uppercase">{t("common:shopNow")}</span>
+                <span className="font-semibold uppercase">
+                  {t("common:shopNow")}
+                </span>
               </Link>
             </div>
           </div>

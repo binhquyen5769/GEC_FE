@@ -10,36 +10,36 @@ export default function UserProfile() {
   const { t } = useTranslation(["user"]);
 
   // THUẬT TOÁN TÍNH PHẨN TRĂM SỐ DƯƠNG, ÂM, SỐ 0 TRONG 1 MẢNG
-  const arr1 = [-1, 1, 0, 1, 0];
+  // const arr1 = [-1, 1, 0, 1, 0];
 
-  function plusMinus(arr: any) {
-    let positive = 0;
-    let negative = 0;
-    let zero = 0;
+  // function plusMinus(arr: any) {
+  //   let positive = 0;
+  //   let negative = 0;
+  //   let zero = 0;
 
-    // VONG LAP CHECK DIEU KIEN
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i] > 0) {
-        positive++;
-      } else if (arr[i] < 0) {
-        negative++;
-      } else {
-        zero++;
-      }
-    }
+  //   // VONG LAP CHECK DIEU KIEN
+  //   for (let i = 0; i < arr.length; i++) {
+  //     if (arr[i] > 0) {
+  //       positive++;
+  //     } else if (arr[i] < 0) {
+  //       negative++;
+  //     } else {
+  //       zero++;
+  //     }
+  //   }
 
-    positive = positive / arr.length;
-    negative = negative / arr.length;
-    zero = zero / arr.length;
+  //   positive = positive / arr.length;
+  //   negative = negative / arr.length;
+  //   zero = zero / arr.length;
 
-    positive.toFixed(6);
-    negative.toFixed(6);
-    zero.toFixed(6);
+  //   positive.toFixed(6);
+  //   negative.toFixed(6);
+  //   zero.toFixed(6);
 
-    console.log("positive: ", positive);
-    console.log("negative: ", negative);
-    console.log("zero: ", zero);
-  }
+  //   console.log("positive: ", positive);
+  //   console.log("negative: ", negative);
+  //   console.log("zero: ", zero);
+  // }
 
   return (
     <>
@@ -114,7 +114,10 @@ export default function UserProfile() {
             <div className="flex">
               <div className="flex-[0_0_auto] w-[50%] px-[10px]">
                 <div>{t("user:role")}:</div>
-                <input className="form-style-user-profile bg-[#e9ecef]" disabled />
+                <input
+                  className="form-style-user-profile bg-[#e9ecef]"
+                  disabled
+                />
               </div>
             </div>
           </div>

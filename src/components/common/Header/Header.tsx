@@ -64,7 +64,7 @@ export default function Header() {
     return arrayItem.map((item, index) => ({
       key: index,
       label: (
-        <Link to="/store/shirt" className="style-hover-menu">
+        <Link to="/store/sort" className="style-hover-menu">
           {item}
         </Link>
       ),
@@ -140,12 +140,12 @@ export default function Header() {
                   {t("common:home")}
                 </Link>
                 <Dropdown menu={{ items: renderItem(items_1) }}>
-                  <Link to="/store/shirt" className="style-hover-menu">
+                  <Link to="/store/sort" className="style-hover-menu">
                     Bạn tặng ai?
                   </Link>
                 </Dropdown>
                 <Dropdown menu={{ items: renderItem(items_2) }}>
-                  <Link to="/store/pants" className="style-hover-menu">
+                  <Link to="/store/sort" className="style-hover-menu">
                     Nhân ngày gì?
                   </Link>
                 </Dropdown>

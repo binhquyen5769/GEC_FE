@@ -10,8 +10,6 @@ export default function BreadCrumbs() {
         <Link to="/" className="text-[16px] font-normal hover:text-[#dc3545]">
           {t("common:home")}
         </Link>
-        <span className="px-[8px]">/</span>
-        <span className="text-[16px] font-nomal">{t("product:shirt")}</span>
       </div>
     </>
   );

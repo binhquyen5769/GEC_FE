@@ -32,7 +32,10 @@ export default function Checkout() {
 
   // NHÓM CÁC SẢN PHẨM CÙNG ID, COLOR, SIZE VÀO CÙNG 1 ARRAY KHI USER THÊM SẢN PHẨM VÀO GIỎ HÀNG
   useEffect(() => {
-    const groupProductById = _.groupBy(cartItems, (i) => `"${i.id}+${i.color}+${i.size}"`);
+    const groupProductById = _.groupBy(
+      cartItems,
+      (i) => `"${i.id}+${i.color}+${i.size}"`
+    );
     const arrayProduct = Object.values(groupProductById);
     const newArr = arrayProduct.flat(Infinity);
     setFinalCart(newArr);
@@ -143,8 +146,16 @@ export default function Checkout() {
                           aria-labelledby="demo-row-radio-buttons-group-label"
                           name="row-radio-buttons-group"
                         >
-                          <FormControlLabel value="female" control={<Radio />} label="Female" />
-                          <FormControlLabel value="male" control={<Radio />} label="Male" />
+                          <FormControlLabel
+                            value="female"
+                            control={<Radio />}
+                            label="Female"
+                          />
+                          <FormControlLabel
+                            value="male"
+                            control={<Radio />}
+                            label="Male"
+                          />
                         </RadioGroup>
                       </FormControl>
                     </div>
@@ -167,8 +178,8 @@ export default function Checkout() {
                         <div className="mb-[20px] pb-[20px] border-b-[1px] border-b-solid border-[#d7d7d7]">
                           <div className="flex justify-between mb-[15px]">
                             <div className="flex flex-wrap">
-                              {data.product_name} x {data.quantity}. {t("common:variant")}:{" "}
-                              {data.size}, {data.color}
+                              {data.product_name} x {data.quantity}.{" "}
+                              {t("common:variant")}: {data.size}, {data.color}
                             </div>
                             <div>${data.price * data.quantity}</div>
                           </div>
@@ -179,21 +190,33 @@ export default function Checkout() {
                   {/* GIÁ */}
                   <div className="pb-[28px] border-b-[1px] border-b-solid border-b-[#d7d7d7] mb-[20px]">
                     <div className="flex justify-between items-center">
-                      <div className="text-[#212529] font-bold">{t("order:subtotal")}</div>
-                      <div className="text-[#e53637] font-bold">${cartPrice}</div>
+                      <div className="text-[#212529] font-bold">
+                        {t("order:subtotal")}
+                      </div>
+                      <div className="text-[#e53637] font-bold">
+                        ${cartPrice}
+                      </div>
                     </div>
                     <div className="flex justify-between items-center">
-                      <div className="text-[#212529] font-bold">{t("order:feeShipping")}</div>
+                      <div className="text-[#212529] font-bold">
+                        {t("order:feeShipping")}
+                      </div>
                       <div className="text-[#e53637] font-bold">$5</div>
                     </div>
                     <div className="flex justify-between items-center">
-                      <div className="text-[#212529] font-bold">{t("order:total")}</div>
-                      <div className="text-[#e53637] font-bold">${cartPrice + 5}</div>
+                      <div className="text-[#212529] font-bold">
+                        {t("order:total")}
+                      </div>
+                      <div className="text-[#e53637] font-bold">
+                        ${cartPrice + 5}
+                      </div>
                     </div>
                   </div>
                   <div className="">
                     <button className="py-[12px] bg-black w-[100%]">
-                      <span className="text-white font-semibold">{t("order:placeOrder")}</span>
+                      <span className="text-white font-semibold">
+                        {t("order:placeOrder")}
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -204,7 +227,7 @@ export default function Checkout() {
           <div className="container px-[12px] mx-auto">
             <div className="flex flex-col justify-center items-center h-full">
               <div className="text-[30px]">{t("common:cartNoItem")}</div>
-              <Link to="/store/shirt" className="">
+              <Link to="/store/sort" className="">
                 <button className="px-[35px] py-[14px] border-solid border-[1px] border-[#ccc]">
                   <span className="uppercase">{t("common:buyNow")}</span>
                 </button>

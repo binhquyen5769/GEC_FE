@@ -35,9 +35,12 @@ export default function NavbarMobile() {
   };
 
   // LANGUAGE
-  const handleLanguageChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
-    i18n.changeLanguage(e.target.value);
-  }, []);
+  const handleLanguageChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      i18n.changeLanguage(e.target.value);
+    },
+    []
+  );
 
   // CHECK LANGUAGE
   useEffect(() => {
@@ -50,7 +53,8 @@ export default function NavbarMobile() {
   useEffect(() => {
     if (dataCartUser?.length > 0) {
       const quantity = dataCartUser.reduce(
-        (accumulator: any, currentValue: any) => accumulator + currentValue.quantity,
+        (accumulator: any, currentValue: any) =>
+          accumulator + currentValue.quantity,
         0
       );
       setQuantityItem(quantity);
@@ -128,9 +132,13 @@ export default function NavbarMobile() {
                 className="style-hover-menu"
               />
               {dataCartUser?.length > 0 ? (
-                <div className="quantity-product top-[-12px] right-[39px]">{quantityItem}</div>
+                <div className="quantity-product top-[-12px] right-[39px]">
+                  {quantityItem}
+                </div>
               ) : (
-                <div className="quantity-product top-[-12px] right-[39px]">0</div>
+                <div className="quantity-product top-[-12px] right-[39px]">
+                  0
+                </div>
               )}
             </Link>
           </div>
@@ -139,7 +147,7 @@ export default function NavbarMobile() {
               {t("common:home")}
             </Link>
             <div className="mt-[10px]">
-              <Link to="/store/shirt" className="style-hover-menu">
+              <Link to="/store/sort" className="style-hover-menu">
                 {t("product:shirt")}
               </Link>
             </div>
@@ -154,7 +162,9 @@ export default function NavbarMobile() {
               </Link>
             </div>
             <div className="flex flex-col mt-[8px] ml-[18px]">
-              <span className="style-hover-menu">{t("product:pants-item")}</span>
+              <span className="style-hover-menu">
+                {t("product:pants-item")}
+              </span>
               <span className="style-hover-menu">{t("product:jeans")}</span>
               <span className="style-hover-menu">{t("product:short")}</span>
             </div>

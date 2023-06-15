@@ -3,9 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import MainLayout from "./layout/MainLayout";
 import About from "./pages/About/About";
 import Home from "./pages/Home/Home";
-import Shirt from "./pages/Shirt/Shirt";
+import SortPage from "./pages/SortPage";
 import ProductLayout from "./layout/ProductLayout";
-import Pants from "./pages/Pants/Pants";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
@@ -18,6 +17,7 @@ import Order from "./pages/Order/Order";
 import PrivateRoute from "./routes/PrivateRoute";
 import Search from "./pages/Search/Search";
 import WishList from "./pages/Whislist/Whislist";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   return (
@@ -80,12 +80,12 @@ function App() {
               ></Route>
             </Route>
             <Route path="/store" element={<ProductLayout />}>
-              <Route path="shirt" element={<Shirt />}></Route>
-              <Route path="pants" element={<Pants />}></Route>
+              <Route path="sort" element={<SortPage />}></Route>
             </Route>
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="admin" element={<AdminPage />} />
           </Routes>
         </Suspense>
       </div>

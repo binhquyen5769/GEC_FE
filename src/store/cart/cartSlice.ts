@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { isArray } from "lodash";
 import { Cart, CartItem } from "../../models/cart";
 import { RootState } from "../store";
 
@@ -41,7 +42,10 @@ const cartSlice = createSlice({
     },
     addCartSuccess(state, action: PayloadAction<Cart>) {
       state.isCartLoading = false;
-      state.cart = [...state.cart, action.payload];
+      if (!isArray(state.cart)) {
+        state.cart = [];
+      }
+      state.cart.push(action.payload || []);
     },
     addCartFailed(state) {
       state.isCartLoading = false;
