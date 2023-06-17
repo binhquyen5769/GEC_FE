@@ -1,10 +1,10 @@
-import { Table, Image } from "antd";
+import { Table, Image, Button, Modal } from "antd";
 import {
   dataProduct,
   fetchProductListStart,
 } from "../../../store/product/productSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { isArray } from "lodash";
 import { getAllUserStart, userSelector } from "../../../store/auth/authSlice";
 import { renderColumnUsers, renderColumnProduct } from "./renderColumn";
@@ -19,6 +19,19 @@ const RenderTable = (props: any) => {
   }, [dispatch]);
   const currentData = useAppSelector(dataProduct);
   const allUser = useAppSelector(userSelector);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const dataSource: any = currentData || [];
 
@@ -53,16 +66,46 @@ const RenderTable = (props: any) => {
   }, []);
 
   return (
-    <Table
-      dataSource={selectedItem === "products" ? dataSource : allUser}
-      columns={
-        selectedItem === "products" ? renderColumnProduct : renderColumnUsers
-      }
-      onChange={() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }}
-      scroll={{ y: 480, x: window.innerWidth }}
-    />
+    <div>
+      <Button
+        style={{
+          marginBottom: "10px",
+        }}
+        onClick={showModal}
+      >
+        + Add Item
+      </Button>
+      <Modal
+        title="Add new Item"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
+      <Table
+        dataSource={selectedItem === "products" ? dataSource : allUser}
+        columns={
+          selectedItem === "products" ? renderColumnProduct : renderColumnUsers
+        }
+        onChange={() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        scroll={{ y: 480, x: window.innerWidth }}
+        // onRow={(record, rowIndex) => {
+        //   console.log("record", record);
+        //   return {
+        //     onClick: (event) => showModal(), // click row
+        //     onDoubleClick: (event) => {}, // double click row
+        //     onContextMenu: (event) => {}, // right button click row
+        //     onMouseEnter: (event) => {}, // mouse enter row
+        //     onMouseLeave: (event) => {}, // mouse leave row
+        //   };
+        // }}
+      />
+    </div>
   );
 };
 

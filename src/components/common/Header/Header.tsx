@@ -152,6 +152,11 @@ export default function Header() {
                 <Link to="/about" className="style-hover-menu">
                   {t("header:about")}
                 </Link>
+                {userInfo?.admin ? (
+                  <Link to="/admin" className="style-hover-menu">
+                    Admin Page
+                  </Link>
+                ) : null}
               </div>
               <div className="relative lg:flex gap-[18px]">
                 <div>

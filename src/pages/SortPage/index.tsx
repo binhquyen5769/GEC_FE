@@ -14,6 +14,7 @@ import Loading from "../../components/Loading/Loading";
 import { Pagination } from "antd";
 import { useTranslation } from "react-i18next";
 import { Stack } from "@mui/material";
+import { some } from "lodash";
 
 export default function SortPage() {
   const loading = useAppSelector(fetchingProduct);
@@ -33,11 +34,12 @@ export default function SortPage() {
   }, [dispatch]);
 
   useEffect(() => {
-    const filterProduct = allProduct?.filter((product: any) => {
-      return product.user_group.includes("Nữ");
-    });
-    setNewProduct(filterProduct);
-    setDefaultData(filterProduct);
+    // const filterProduct = allProduct?.filter((product: any) => {
+    //   console.log('allProduct', allProduct)
+    //   return product.user_group.includes("Nữ");
+    // });
+    setNewProduct(allProduct);
+    setDefaultData(allProduct);
   }, [allProduct]);
 
   // SHORT PRODUCT
@@ -58,6 +60,14 @@ export default function SortPage() {
         arrPrice.sort((a: any, b: any) => a.price - b.price);
         setNewProduct(arrPrice);
         break;
+      case "customSort":
+        const arr1 = ["Nam", "Bố mẹ"];
+        const sortArr = newProduct.map((val: any) => {
+          const cond = some(val.user_group.map((v: any) => arr1.includes(v)));
+          return cond && val;
+        });
+        setNewProduct(sortArr.filter((item: any) => !!item));
+        break;
       default:
         break;
     }
@@ -65,6 +75,7 @@ export default function SortPage() {
 
   const paginationProduct = (e: any) => {
     setPageSize(e.target.value);
+    setPagiNateNumber(1);
   };
 
   const paginateData = useCallback(
@@ -93,6 +104,7 @@ export default function SortPage() {
               onChange={paginationProduct}
               value={pagiSize}
             >
+              <option value="5">5</option>
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="50">50</option>
@@ -112,6 +124,7 @@ export default function SortPage() {
               <option value="none">None</option>
               <option value="name">{t("product:name")}</option>
               <option value="price">{t("product:price")}</option>
+              <option value="customSort">Custom Sort</option>
             </select>
           </div>
         </div>

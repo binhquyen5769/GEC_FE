@@ -4,7 +4,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import type { MenuProps } from "antd";
+import { MenuProps } from "antd";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import RenderTable from "./RenderTable";
 
@@ -67,8 +67,8 @@ const AdminPage: React.FC = () => {
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>Product</Breadcrumb.Item>
-            <Breadcrumb.Item>All Product</Breadcrumb.Item>
+            <Breadcrumb.Item>{selectedItem.toUpperCase()}</Breadcrumb.Item>
+            <Breadcrumb.Item>{`All ${selectedItem}`}</Breadcrumb.Item>
           </Breadcrumb>
           <div
             style={{
