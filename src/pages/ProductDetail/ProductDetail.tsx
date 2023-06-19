@@ -163,7 +163,7 @@ export default function ProductDetail() {
       const cartItem: CartItem = {
         id: productDetail.id,
         product_name: productDetail.name,
-        image_url: productDetail.image_url[0],
+        image_url: productDetail.image_url[0].url,
         price: productDetail.price,
         quantity: selectQuantity,
         color: selectedColor,
@@ -229,7 +229,7 @@ export default function ProductDetail() {
                           <div className="">
                             <img
                               className=""
-                              src={item}
+                              src={item.url}
                               alt=""
                               style={{
                                 width: "100%",
@@ -297,7 +297,7 @@ export default function ProductDetail() {
                       return (
                         <SwiperSlide className="opacity-1">
                           <div className="">
-                            <img className="" src={item} alt="" />
+                            <img className="" src={item.url} alt="" />
                           </div>
                         </SwiperSlide>
                       );

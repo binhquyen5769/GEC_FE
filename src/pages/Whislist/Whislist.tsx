@@ -29,11 +29,19 @@ export default function WishList() {
                   navigate(`/products/${product.id}`);
                 }}
               >
-                <img className="" src={product.image_url.image_url_01} alt="Product1" />
+                <img
+                  className=""
+                  src={product.image_url[0].url}
+                  alt="Product1"
+                />
                 <div className="pt-[20px]">
-                  <div className="text-[16px] font-bold mb-[16px]">{product.product_name}</div>
+                  <div className="text-[16px] font-bold mb-[16px]">
+                    {product.name}
+                  </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-[20px] font-semibold">${product.price}</span>
+                    <span className="text-[20px] font-semibold">
+                      ${product.price}
+                    </span>
                   </div>
                 </div>
               </div>

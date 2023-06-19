@@ -37,7 +37,7 @@ export default function NewProduct() {
                   navigate(`/products/${product.id}`);
                 }}
               >
-                <img className="" src={imageArray[0]} alt="" />
+                <img className="" src={imageArray[0].url} alt="" />
                 <div className="pt-[20px]">
                   <div className="text-[16px] font-bold mb-[16px]">
                     {product.name}

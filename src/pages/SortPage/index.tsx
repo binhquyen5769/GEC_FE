@@ -150,7 +150,7 @@ export default function SortPage() {
             className="mb-[20px] cursor-pointer relative test-hover-block"
             key={product.id}
           >
-            <img className="" src={product.image_url[0]} alt="" />
+            <img className="" src={product.image_url[0].url} alt="" />
             <div className="pt-[20px]">
               <div className="text-[16px] font-bold mb-[16px]">
                 {product.name}
