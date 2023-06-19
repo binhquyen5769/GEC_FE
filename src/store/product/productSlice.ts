@@ -4,14 +4,16 @@ import { RootState } from "../store";
 
 export interface ProductListState {
   fetching: boolean;
-  listProduct?: ProductList; 
+  listProduct?: ProductList;
   error: boolean;
+  sort?: string;
 }
 
 const initialState: ProductListState = {
   fetching: false,
   listProduct: undefined,
   error: false,
+  sort: "",
 };
 
 const productSlice = createSlice({
@@ -29,18 +31,35 @@ const productSlice = createSlice({
     fetchProductListFailed(state) {
       state.error = true;
     },
+    getSortByUserGroupStart(state) {
+      state.fetching = true;
+    },
+    getSortByUserGroupSuccess(state, action: any) {
+      state.fetching = false;
+      state.sort = action.payload;
+      state.error = false;
+    },
+    getSortByUserGroupFailed(state) {
+      state.error = true;
+    },
   },
 });
 
 // EXPORT ACTIONS
 export const {
-    fetchProductListStart, fetchproductListSuccess, fetchProductListFailed
-} = productSlice.actions; 
+  fetchProductListStart,
+  fetchproductListSuccess,
+  fetchProductListFailed,
+  getSortByUserGroupSuccess,
+  getSortByUserGroupStart,
+  getSortByUserGroupFailed,
+} = productSlice.actions;
 
 //EPXORT REDUCER
-const productReducer = productSlice.reducer; 
-export default productReducer; 
+const productReducer = productSlice.reducer;
+export default productReducer;
 
 // SELECTOR
-export const dataProduct = (state: RootState) => state.product.listProduct; 
-export const fetchingProduct = (state: RootState) => state.product.fetching; 
+export const dataProduct = (state: RootState) => state.product.listProduct;
+export const fetchingProduct = (state: RootState) => state.product.fetching;
+export const getSortByUserGroup = (state: RootState) => state.product.sort;

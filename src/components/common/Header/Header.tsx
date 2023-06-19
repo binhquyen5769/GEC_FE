@@ -13,6 +13,8 @@ import { useTranslation } from "react-i18next";
 import SearchComponent from "../../SearchComponent/SearchComponent";
 import { dataCart } from "../../../store/cart/cartSlice";
 import { Dropdown, Button } from "antd";
+import { getSortByUserGroupStart } from "../../../store/product/productSlice";
+import { SORT_DATA } from "./common.constant";
 
 export default function Header() {
   const userInfo = useAppSelector(token);
@@ -31,6 +33,10 @@ export default function Header() {
     },
     []
   );
+
+  const setSortByUserGroup = (val: any) => {
+    dispatch(getSortByUserGroupStart(val.value));
+  };
 
   // GET VALUE LANGUAGE
   useEffect(() => {
@@ -51,7 +57,6 @@ export default function Header() {
     }
   }, [dataCartUser]);
 
-  const items_1 = ["Chị em gái", "Nữ giới", "Vợ", "Bạn gái", "Người yêu"];
   const items_2 = [
     "20/10",
     "Kỉ niệm ngày cưới",
@@ -64,8 +69,12 @@ export default function Header() {
     return arrayItem.map((item, index) => ({
       key: index,
       label: (
-        <Link to="/store/sort" className="style-hover-menu">
-          {item}
+        <Link
+          to="/store/sort"
+          className="style-hover-menu"
+          onClick={() => setSortByUserGroup(item)}
+        >
+          {item.label || item}
         </Link>
       ),
     }));
@@ -139,7 +148,7 @@ export default function Header() {
                 <Link to="/" className="style-hover-menu">
                   {t("common:home")}
                 </Link>
-                <Dropdown menu={{ items: renderItem(items_1) }}>
+                <Dropdown menu={{ items: renderItem(SORT_DATA) }}>
                   <Link to="/store/sort" className="style-hover-menu">
                     Bạn tặng ai?
                   </Link>

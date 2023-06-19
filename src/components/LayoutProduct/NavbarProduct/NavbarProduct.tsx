@@ -3,12 +3,17 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch } from "../../../store/hooks/hooks";
+import { getSortByUserGroupStart } from "../../../store/product/productSlice";
+import { SORT_DATA } from "../../common/Header/common.constant";
 
 export default function NavbarProduct() {
   const { t } = useTranslation(["product"]);
+  const dispatch = useAppDispatch();
 
-  const items_1 = ["Chị em gái", "Nữ giới", "Vợ", "Bạn gái", "Người yêu"];
-
+  const getSort = (val: any) => {
+    dispatch(getSortByUserGroupStart(val));
+  };
   const items_2 = [
     "20/10",
     "Kỉ niệm ngày cưới",
@@ -30,8 +35,13 @@ export default function NavbarProduct() {
             </AccordionSummary>
             <AccordionDetails className="shirt-00">
               <ul className="text-[16px] font-medium">
-                {items_1.map((item) => (
-                  <li className="style-hover-menu">{item}</li>
+                {SORT_DATA.map((item) => (
+                  <li
+                    className="style-hover-menu"
+                    onClick={() => getSort(item.value)}
+                  >
+                    {item.label}
+                  </li>
                 ))}
               </ul>
             </AccordionDetails>

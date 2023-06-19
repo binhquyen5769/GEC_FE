@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import {
   dataProduct,
   fetchProductListStart,
+  getSortByUserGroup,
 } from "../../store/product/productSlice";
 // import SearchIcon from "@mui/icons-material/Search";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -14,7 +15,9 @@ import Loading from "../../components/Loading/Loading";
 import { Pagination } from "antd";
 import { useTranslation } from "react-i18next";
 import { Stack } from "@mui/material";
-import { some } from "lodash";
+import { isEmpty, some } from "lodash";
+
+import { SORT_ARRAY } from "./common";
 
 export default function SortPage() {
   const loading = useAppSelector(fetchingProduct);
@@ -24,7 +27,6 @@ export default function SortPage() {
   const [sortValue, setSortValue] = useState<string>("none");
   const allProduct: any = useAppSelector(dataProduct);
   const [newProduct, setNewProduct] = useState<any>([]);
-  console.log("newProduct", newProduct);
   const [defaultData, setDefaultData] = useState<any>();
   const [paginateNumber, setPagiNateNumber] = useState<number>(1);
   const [pagiSize, setPageSize] = useState<string>("10");
@@ -41,6 +43,10 @@ export default function SortPage() {
     setNewProduct(allProduct);
     setDefaultData(allProduct);
   }, [allProduct]);
+
+  const sortData = useAppSelector(getSortByUserGroup);
+
+  const sortValues = SORT_ARRAY.filter((item: any) => item.name === sortData);
 
   // SHORT PRODUCT
   const sortProduct = (e: any) => {
@@ -59,14 +65,6 @@ export default function SortPage() {
         const arrPrice = [...newProduct];
         arrPrice.sort((a: any, b: any) => a.price - b.price);
         setNewProduct(arrPrice);
-        break;
-      case "customSort":
-        const arr1 = ["Nam", "Bố mẹ"];
-        const sortArr = newProduct.map((val: any) => {
-          const cond = some(val.user_group.map((v: any) => arr1.includes(v)));
-          return cond && val;
-        });
-        setNewProduct(sortArr.filter((item: any) => !!item));
         break;
       default:
         break;
@@ -90,6 +88,21 @@ export default function SortPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [pagiSize, paginateNumber]);
+
+  const sortedProduct = useMemo(() => {
+    return newProduct?.filter((item: any) => {
+      if (!isEmpty(sortValues)) {
+        const cond = some(
+          item.user_group.map((v: any) => sortValues[0].value.includes(v))
+        );
+        return cond && item;
+      }
+      return item;
+    });
+  }, [newProduct, sortValues]);
+
+  console.log("sortedProduct", sortedProduct);
+
   return (
     <>
       {loading && <Loading />}
@@ -124,13 +137,12 @@ export default function SortPage() {
               <option value="none">None</option>
               <option value="name">{t("product:name")}</option>
               <option value="price">{t("product:price")}</option>
-              <option value="customSort">Custom Sort</option>
             </select>
           </div>
         </div>
       </div>
       <div className="block md:grid md:grid-rows-auto md:grid-cols-2 xl:grid-rows-auto xl:grid-cols-3 gap-[18px]">
-        {paginateData(newProduct)?.map((product: any) => (
+        {paginateData(sortedProduct)?.map((product: any) => (
           <div
             onClick={() => {
               navigate(`/products/${product.id}`);
@@ -167,7 +179,7 @@ export default function SortPage() {
           <Stack spacing={2}>
             <Pagination
               current={paginateNumber}
-              total={newProduct?.length || []}
+              total={sortedProduct?.length || []}
               pageSize={+pagiSize}
               onChange={(pageNumber) => {
                 setPagiNateNumber(pageNumber);
