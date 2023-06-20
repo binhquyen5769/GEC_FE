@@ -12,7 +12,7 @@ import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 import SearchComponent from "../../SearchComponent/SearchComponent";
 import { dataCart } from "../../../store/cart/cartSlice";
-import { Dropdown, Button } from "antd";
+import { Dropdown } from "antd";
 import {
   getFilterByClassifyStart,
   getSortByUserGroupStart,

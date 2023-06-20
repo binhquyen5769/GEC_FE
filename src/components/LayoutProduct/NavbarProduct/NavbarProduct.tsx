@@ -1,7 +1,6 @@
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import {
   getFilterByClassify,
@@ -15,7 +14,6 @@ import {
 } from "../../common/Header/common.constant";
 
 export default function NavbarProduct() {
-  const { t } = useTranslation(["product"]);
   const dispatch = useAppDispatch();
 
   const getSort = useAppSelector(getSortByUserGroup);

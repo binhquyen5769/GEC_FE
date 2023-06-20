@@ -33,7 +33,6 @@ export default function NewProduct() {
         </div>
         <div className="block md:grid md:grid-rows-2 md:grid-cols-2 xl:grid-rows-2 xl:grid-cols-4 gap-[18px]">
           {filterProduct?.map((product: any) => {
-            const imageArray = product.image_url;
             return (
               <div
                 className="px-[12px] mb-[20px] cursor-pointer relative test-hover-block"

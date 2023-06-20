@@ -1,11 +1,10 @@
-import { Table, Image, Button, Modal } from "antd";
+import { Table, Button } from "antd";
 import {
   dataProduct,
   fetchProductListStart,
 } from "../../../store/product/productSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { useEffect, useState } from "react";
-import { isArray } from "lodash";
 import { getAllUserStart, userSelector } from "../../../store/auth/authSlice";
 import { renderColumnUsers, renderColumnProduct } from "./renderColumn";
 import ModalItem from "./ModalItem";
