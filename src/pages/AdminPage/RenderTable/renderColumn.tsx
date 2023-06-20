@@ -70,7 +70,7 @@ export const renderColumnProduct = [
       return (
         <Space size="small" style={{ display: "flex" }}>
           {val.map((v: any) => (
-            <Image src={v} style={{ width: "100px", height: "100px" }} />
+            <Image src={v.url} style={{ width: "100px", height: "100px" }} />
           ))}
         </Space>
       );

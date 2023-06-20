@@ -22,6 +22,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { listFavoriteActions } from "../../store/list-favorite/listFavoriteSlice";
 import { listProductFavorite } from "../../store/list-favorite/listFavoriteSlice";
 import { dataProduct } from "../../store/product/productSlice";
+import { Watermark } from "antd";
 import { isEmpty } from "lodash";
 
 export default function ProductDetail() {
@@ -94,12 +95,7 @@ export default function ProductDetail() {
           </div>
         );
       }),
-    [
-      handleColorSelect,
-      productDetail.color,
-      productDetail.lenght,
-      selectedColor,
-    ]
+    [handleColorSelect, productDetail, selectedColor]
   );
 
   // HÀM CHỌN SIZE
@@ -136,7 +132,7 @@ export default function ProductDetail() {
         setSelectQuantity(selectQuantity + 1);
       }
     }
-  }, [productDetail, selectQuantity]);
+  }, [productDetail, selectQuantity, t]);
 
   // HÀM GIẢM SỐ LƯỢNG
   const handleDecreaseQuantity = useCallback(() => {
@@ -147,6 +143,11 @@ export default function ProductDetail() {
 
   // HÀM THÊM SẢN PHẨM VÀO GIỎ HÀNG
   const handleAddToCart = useCallback(() => {
+    if (!productDetail.quantity) {
+      toast.warning("Đã hết sản phẩm");
+      return;
+    }
+
     if (!dataUser) {
       toast.warning(`${t("common:mustLogin")}`);
       return;
@@ -171,7 +172,17 @@ export default function ProductDetail() {
       };
       dispatch(cartActions.addCartStart(cartItem));
     }
-  }, [dataUser, selectQuantity, selectedColor, selectedSize]);
+  }, [
+    dataUser,
+    dispatch,
+    productDetail.id,
+    productDetail.image_url,
+    productDetail.name,
+    productDetail.price,
+    selectQuantity,
+    selectedColor,
+    t,
+  ]);
 
   // THÊM SẢN PHẨM VÀO WISH-LIST
   const addToFavoriteList = useCallback(
@@ -180,7 +191,7 @@ export default function ProductDetail() {
         listFavoriteActions.addProductToFavoriteListStart(productDetail)
       );
     },
-    [productDetail]
+    [dispatch, productDetail]
   );
 
   // LẤY RA ID CỦA TẤT CẢ SẢN PHẨM TRONG WISH LIST
@@ -194,7 +205,11 @@ export default function ProductDetail() {
         listFavoriteActions.removeProductFromFavoriteStart(currentIdProduct)
       );
     },
-    [currentIdProduct]
+    [currentIdProduct, dispatch]
+  );
+
+  const renderImage = (item: any) => (
+    <img className="" src={item.url} alt="" style={{ width: "100%" }} />
   );
 
   return (
@@ -227,14 +242,17 @@ export default function ProductDetail() {
                       return (
                         <SwiperSlide className="opacity-1">
                           <div className="">
-                            <img
-                              className=""
-                              src={item.url}
-                              alt=""
-                              style={{
-                                width: "100%",
-                              }}
-                            />
+                            {productDetail.quantity === 0 ? (
+                              <Watermark
+                                content={["Out of stock"]}
+                                font={{ fontSize: 32 }}
+                                gap={[40, 40]}
+                              >
+                                {renderImage(item)}
+                              </Watermark>
+                            ) : (
+                              renderImage(item)
+                            )}
                           </div>
                         </SwiperSlide>
                       );

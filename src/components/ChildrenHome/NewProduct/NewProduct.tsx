@@ -9,6 +9,7 @@ import { dataProduct } from "../../../store/product/productSlice";
 import { useAppSelector } from "../../../store/hooks/hooks";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Watermark } from "antd";
 
 export default function NewProduct() {
   const dispatch = useAppDispatch();
@@ -19,6 +20,10 @@ export default function NewProduct() {
   const filterProduct = currentData?.filter((product: any) => product);
   const navigate = useNavigate();
   const { t } = useTranslation(["common"]);
+
+  const renderImage = (product: any) => (
+    <img className="" src={product.image_url[0].url} alt="" />
+  );
 
   return (
     <>
@@ -37,7 +42,17 @@ export default function NewProduct() {
                   navigate(`/products/${product.id}`);
                 }}
               >
-                <img className="" src={imageArray[0].url} alt="" />
+                {product.quantity === 0 ? (
+                  <Watermark
+                    content={["Out of stock"]}
+                    font={{ fontSize: 32 }}
+                    gap={[40, 40]}
+                  >
+                    {renderImage(product)}
+                  </Watermark>
+                ) : (
+                  renderImage(product)
+                )}
                 <div className="pt-[20px]">
                   <div className="text-[16px] font-bold mb-[16px]">
                     {product.name}

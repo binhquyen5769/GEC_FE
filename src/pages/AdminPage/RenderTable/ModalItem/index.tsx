@@ -14,10 +14,6 @@ const ModalItem = (props: any) => {
     labelCol: { span: 4 },
     wrapperCol: { span: 16 },
   };
-  const convertUrl = detail?.image_url?.map((image: any) => {
-    return { url: image };
-  });
-
   const initialValue = {
     name: "",
     description: "",
@@ -58,7 +54,7 @@ const ModalItem = (props: any) => {
           <TextArea />
         </Form.Item>
         <Form.Item name={"image_url"} label={"Image"}>
-          <Upload fileList={convertUrl} listType="picture-card">
+          <Upload fileList={detail.image_url} listType="picture-card">
             {uploadButton}
           </Upload>
         </Form.Item>

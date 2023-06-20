@@ -12,7 +12,7 @@ import {
 import { Outlet, useNavigate } from "react-router-dom";
 import { fetchingProduct } from "../../store/product/productSlice";
 import Loading from "../../components/Loading/Loading";
-import { Pagination } from "antd";
+import { Pagination, Watermark } from "antd";
 import { useTranslation } from "react-i18next";
 import { Stack } from "@mui/material";
 import { isEmpty, some } from "lodash";
@@ -101,7 +101,9 @@ export default function SortPage() {
     });
   }, [newProduct, sortValues]);
 
-  console.log("sortedProduct", sortedProduct);
+  const renderImage = (product: any) => (
+    <img className="" src={product.image_url[0].url} alt="" />
+  );
 
   return (
     <>
@@ -150,7 +152,17 @@ export default function SortPage() {
             className="mb-[20px] cursor-pointer relative test-hover-block"
             key={product.id}
           >
-            <img className="" src={product.image_url[0].url} alt="" />
+            {product.quantity === 0 ? (
+              <Watermark
+                content={["Out of stock"]}
+                font={{ fontSize: 32 }}
+                gap={[40, 40]}
+              >
+                {renderImage(product)}
+              </Watermark>
+            ) : (
+              renderImage(product)
+            )}
             <div className="pt-[20px]">
               <div className="text-[16px] font-bold mb-[16px]">
                 {product.name}
