@@ -56,8 +56,18 @@ function* removeProductFromCart({ payload }: any) {
   }
 }
 
+function* updateProductInCart({ payload }: any) {
+  console.log("payload", payload);
+  try {
+    yield put(cartActions.updateProductSuccess(payload));
+  } catch (err) {
+    yield put(cartActions.updateProductFailed());
+  }
+}
+
 export default function* cartSaga() {
   yield takeLeading(cartActions.fetchCartStart.type, fetchDataCartUser);
   yield takeLeading(cartActions.addCartStart.type, addProductToCart);
   yield takeLeading(cartActions.removeProductStart.type, removeProductFromCart);
+  yield takeLeading(cartActions.updateProductStart.type, updateProductInCart);
 }

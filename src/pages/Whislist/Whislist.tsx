@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { listProductFavorite } from "../../store/list-favorite/listFavoriteSlice";
 import { useAppSelector } from "../../store/hooks/hooks";
 import { useEffect } from "react";
+import { uniqBy } from "lodash";
 
 export default function WishList() {
   const navigate = useNavigate();
   const listFavoriteProduct = useAppSelector(listProductFavorite);
-  const listFavorite = listFavoriteProduct?.flat(Infinity);
+  const listFavorite = uniqBy(listFavoriteProduct, "id");
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });

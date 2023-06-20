@@ -1,4 +1,3 @@
-import CustomerService from "../../components/ChildrenHome/CustomerService/CustomerService";
 import NewProduct from "../../components/ChildrenHome/NewProduct/NewProduct";
 import BannerPage from "../../components/ChildrenHome/Swiper/BannerPage";
 import LoadingModal from "../../components/Loading/Loading";
@@ -29,7 +28,6 @@ export default function Home() {
     <>
       {loading && <LoadingModal />}
       <BannerPage />
-      <CustomerService />
       <NewProduct />
     </>
   );

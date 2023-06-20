@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Badge, Watermark } from "antd";
 import { orderBy } from "lodash";
+import CustomerService from "../CustomerService/CustomerService";
 
 export default function NewProduct() {
   const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ export default function NewProduct() {
   const { t } = useTranslation(["common"]);
 
   const renderImage = (product: any) => (
-    <Badge.Ribbon text="New Arrival" color="pink">
+    <Badge.Ribbon text="Quà mới" color="pink">
       <img className="" src={product.image_url[0].url} alt="" />
     </Badge.Ribbon>
   );
@@ -32,7 +33,7 @@ export default function NewProduct() {
     <>
       <div className="container mx-auto">
         <div className="flex justify-center px-[12px] pb-[20px]">
-          <span className="text-[30px]">{t("common:newArrival")}</span>
+          <span className="text-[30px]">Quà mới</span>
         </div>
         <div className="block md:grid md:grid-rows-2 md:grid-cols-2 xl:grid-rows-2 xl:grid-cols-4 gap-[18px]">
           {filterProduct?.map((product: any) => {
@@ -78,6 +79,7 @@ export default function NewProduct() {
             );
           })}
         </div>
+        <CustomerService />
         <div className="  xl:flex justify-center my-[30px]">
           <img
             src={

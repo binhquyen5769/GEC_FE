@@ -98,11 +98,6 @@ export default function ProductDetail() {
     [handleColorSelect, productDetail, selectedColor]
   );
 
-  // HÀM CHỌN SIZE
-  const handleSizeSelect = useCallback((size: Size) => {
-    setSelectedSize(size);
-  }, []);
-
   // THANH SIZE
   // const sizeBar = useMemo(
   //   () =>
@@ -179,6 +174,7 @@ export default function ProductDetail() {
     productDetail.image_url,
     productDetail.name,
     productDetail.price,
+    productDetail.quantity,
     selectQuantity,
     selectedColor,
     t,
@@ -414,7 +410,13 @@ export default function ProductDetail() {
                 <div className="mt-[40px]">
                   <div className="font-semibold">{t("common:description")}</div>
                   <div className="flex flex-col">
-                    <span className="">{productDetail?.description}</span>
+                    <span
+                      style={{
+                        textAlign: "justify",
+                      }}
+                    >
+                      {productDetail?.description}
+                    </span>
                     {/* <span className="">
                       {
                         productDetail?.description?.description_2

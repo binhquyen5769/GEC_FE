@@ -30,7 +30,7 @@ export default function NavbarProduct() {
     <>
       <div className="pb-[12px]">
         <div className="border-b-[1px] border-b-[#000]">
-          <Accordion className="box-shadow-none ">
+          <Accordion className="box-shadow-none " defaultExpanded>
             <AccordionSummary className="shirt-01">
               <div className="uppercase cursor-pointer font-bold text-[18px]">
                 Đối tượng
@@ -56,7 +56,7 @@ export default function NavbarProduct() {
       </div>
       <div className="pb-[12px]">
         <div className="border-b-[1px] border-b-[#000]">
-          <Accordion className="box-shadow-none ">
+          <Accordion className="box-shadow-none " defaultExpanded>
             <AccordionSummary className="shirt-01">
               <div className="uppercase cursor-pointer font-bold text-[18px]">
                 Ngày lễ

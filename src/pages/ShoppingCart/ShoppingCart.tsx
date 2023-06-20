@@ -9,6 +9,7 @@ import { dataCart } from "../../store/cart/cartSlice";
 import _ from "lodash";
 import { useAppDispatch } from "../../store/hooks/hooks";
 import { cartActions } from "../../store/cart/cartSlice";
+import { Tag } from "antd";
 
 export default function ShoppingCart() {
   const { t } = useTranslation(["order", "common"]);
@@ -20,7 +21,7 @@ export default function ShoppingCart() {
   useEffect(() => {
     const groupProductById = _.groupBy(
       cartItems,
-      (i) => `"${i.id}+${i.color}+${i.size}"`
+      (i) => `"${i.id}+${i.color}"`
     );
     const arrayProduct = Object.values(groupProductById);
     const newArr = arrayProduct.flat(Infinity);
@@ -30,6 +31,16 @@ export default function ShoppingCart() {
   const removeProduct = (index: number) => {
     finalCart.splice(index, 1);
     dispatch(cartActions.removeProductStart(finalCart));
+  };
+
+  const addProduct = (product: any) => {
+    const newProductQuantity = { ...product, quantity: product.quantity + 1 };
+    dispatch(cartActions.updateProductStart(newProductQuantity));
+  };
+  const minusProduct = (product: any) => {
+    if (product.quantity === 0) return;
+    const newProductQuantity = { ...product, quantity: product.quantity - 1 };
+    dispatch(cartActions.updateProductStart(newProductQuantity));
   };
 
   return (
@@ -66,27 +77,44 @@ export default function ShoppingCart() {
                           </div>
                           <div className="">
                             <p className="text-[15px] font-semibold pb-[10px]">
-                              {data.productName}
+                              {data.product_name}
                             </p>
                             <p className="text-[16px] pb-[16px]">
-                              {t("common:variant")}: {data.size}, {data.color}
+                              {
+                                <Tag
+                                  color={data.color}
+                                  style={
+                                    data.color === "#FFFFFF"
+                                      ? { color: "black", border: "1px solid" }
+                                      : undefined
+                                  }
+                                >
+                                  {data.color}
+                                </Tag>
+                              }
                             </p>
                             <p className="text-[18px] font-semibold">
-                              ${data.price}
+                              {data.price} VNĐ
                             </p>
                           </div>
                         </div>
                       </td>
                       <td className="table-cell py-[30px] text-right">
                         <div className="w-[80px] flex items-center">
-                          <span className="cursor-pointer text-[20px]">
+                          <span
+                            className="cursor-pointer text-[20px]"
+                            onClick={() => minusProduct(data)}
+                          >
                             <NavigateBeforeIcon sx={{ fontSize: "30px" }} />
                           </span>
                           <div className="flex items-center justify-center w-[50px] border-0 text-center text-[16px] pt-[2px]">
                             {data.quantity}
                           </div>
                           <span className="cursor-pointer text-[20px]">
-                            <NavigateNextIcon sx={{ fontSize: "30px" }} />
+                            <NavigateNextIcon
+                              sx={{ fontSize: "30px" }}
+                              onClick={() => addProduct(data)}
+                            />
                           </span>
                         </div>
                       </td>

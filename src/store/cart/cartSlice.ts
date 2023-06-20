@@ -29,7 +29,7 @@ const cartSlice = createSlice({
     },
     fetchCartSuccess(state, action: PayloadAction<any>) {
       state.isCartLoading = false;
-      state.cart = action.payload;
+      state = { ...state, cart: [...state.cart, action.payload] };
     },
     fetchCartFailed(state) {
       state.isCartLoading = false;
@@ -52,6 +52,20 @@ const cartSlice = createSlice({
       state.error = true;
     },
 
+    updateProductStart(state) {
+      state.isCartLoading = true;
+    },
+    updateProductSuccess(state, action: PayloadAction<any>) {
+      const indexData = state.cart.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      state.isCartLoading = false;
+      state.cart[indexData] = action.payload;
+    },
+    updateProductFailed(state) {
+      state.isCartLoading = false;
+      state.error = true;
+    },
     removeProductStart(state, action: PayloadAction<any>) {
       state.isCartLoading = true;
       state.itemRemove = action.payload;
