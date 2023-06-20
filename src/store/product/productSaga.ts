@@ -7,6 +7,9 @@ import {
   getSortByUserGroupFailed,
   getSortByUserGroupStart,
   getSortByUserGroupSuccess,
+  getFilterByClassifyStart,
+  getFilterByClassifySuccess,
+  getFilterByClassifyFailed,
 } from "./productSlice";
 
 function* fetchProductList() {
@@ -28,7 +31,16 @@ function* triggerSortProducts({ payload }: any) {
   }
 }
 
+function* filterByClassify({ payload }: any) {
+  try {
+    yield put(getFilterByClassifySuccess(payload));
+  } catch (err) {
+    yield put(getFilterByClassifyFailed());
+  }
+}
+
 export default function* productListSaga() {
   yield takeLatest(fetchProductListStart.type, fetchProductList);
   yield takeLatest(getSortByUserGroupStart.type, triggerSortProducts);
+  yield takeLatest(getFilterByClassifyStart.type, filterByClassify);
 }

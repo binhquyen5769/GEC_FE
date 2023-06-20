@@ -13,8 +13,14 @@ import { useTranslation } from "react-i18next";
 import SearchComponent from "../../SearchComponent/SearchComponent";
 import { dataCart } from "../../../store/cart/cartSlice";
 import { Dropdown, Button } from "antd";
-import { getSortByUserGroupStart } from "../../../store/product/productSlice";
-import { SORT_DATA } from "./common.constant";
+import {
+  getFilterByClassifyStart,
+  getSortByUserGroupStart,
+} from "../../../store/product/productSlice";
+import {
+  FILTER_USER_GROUP_DATA,
+  FILTER_CLASSIFY_DATA,
+} from "./common.constant";
 
 export default function Header() {
   const userInfo = useAppSelector(token);
@@ -37,6 +43,9 @@ export default function Header() {
   const setSortByUserGroup = (val: any) => {
     dispatch(getSortByUserGroupStart(val.value));
   };
+  const setFilterByClassify = (val: any) => {
+    dispatch(getFilterByClassifyStart(val.value));
+  };
 
   // GET VALUE LANGUAGE
   useEffect(() => {
@@ -57,22 +66,18 @@ export default function Header() {
     }
   }, [dataCartUser]);
 
-  const items_2 = [
-    "20/10",
-    "Kỉ niệm ngày cưới",
-    "Kỉ niệm ngày yêu",
-    "Lần đầu hẹn hò",
-    "Tỏ tình",
-    "Valentine",
-  ];
-  const renderItem = (arrayItem: any[]) => {
+  const renderItem = (arrayItem: any[], type: string) => {
     return arrayItem.map((item, index) => ({
       key: index,
       label: (
         <Link
           to="/store/sort"
           className="style-hover-menu"
-          onClick={() => setSortByUserGroup(item)}
+          onClick={
+            type === "userGroup"
+              ? () => setSortByUserGroup(item)
+              : () => setFilterByClassify(item)
+          }
         >
           {item.label || item}
         </Link>
@@ -148,12 +153,18 @@ export default function Header() {
                 <Link to="/" className="style-hover-menu">
                   {t("common:home")}
                 </Link>
-                <Dropdown menu={{ items: renderItem(SORT_DATA) }}>
+                <Dropdown
+                  menu={{
+                    items: renderItem(FILTER_USER_GROUP_DATA, "userGroup"),
+                  }}
+                >
                   <Link to="/store/sort" className="style-hover-menu">
                     Bạn tặng ai?
                   </Link>
                 </Dropdown>
-                <Dropdown menu={{ items: renderItem(items_2) }}>
+                <Dropdown
+                  menu={{ items: renderItem(FILTER_CLASSIFY_DATA, "classify") }}
+                >
                   <Link to="/store/sort" className="style-hover-menu">
                     Nhân ngày gì?
                   </Link>

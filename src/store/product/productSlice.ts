@@ -7,6 +7,7 @@ export interface ProductListState {
   listProduct?: ProductList;
   error: boolean;
   sort?: string;
+  filterByClassify?: string;
 }
 
 const initialState: ProductListState = {
@@ -14,6 +15,7 @@ const initialState: ProductListState = {
   listProduct: undefined,
   error: false,
   sort: "",
+  filterByClassify: "",
 };
 
 const productSlice = createSlice({
@@ -42,6 +44,17 @@ const productSlice = createSlice({
     getSortByUserGroupFailed(state) {
       state.error = true;
     },
+    getFilterByClassifyStart(state) {
+      state.fetching = true;
+    },
+    getFilterByClassifySuccess(state, action: any) {
+      state.fetching = false;
+      state.filterByClassify = action.payload;
+      state.error = false;
+    },
+    getFilterByClassifyFailed(state) {
+      state.error = true;
+    },
   },
 });
 
@@ -53,6 +66,9 @@ export const {
   getSortByUserGroupSuccess,
   getSortByUserGroupStart,
   getSortByUserGroupFailed,
+  getFilterByClassifyStart,
+  getFilterByClassifySuccess,
+  getFilterByClassifyFailed,
 } = productSlice.actions;
 
 //EPXORT REDUCER
@@ -63,3 +79,5 @@ export default productReducer;
 export const dataProduct = (state: RootState) => state.product.listProduct;
 export const fetchingProduct = (state: RootState) => state.product.fetching;
 export const getSortByUserGroup = (state: RootState) => state.product.sort;
+export const getFilterByClassify = (state: RootState) =>
+  state.product.filterByClassify;

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import {
   dataProduct,
   fetchProductListStart,
+  getFilterByClassify,
   getSortByUserGroup,
 } from "../../store/product/productSlice";
 // import SearchIcon from "@mui/icons-material/Search";
@@ -17,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import { Stack } from "@mui/material";
 import { isEmpty, some } from "lodash";
 
-import { SORT_ARRAY } from "./common";
+import { FILTER_CLASSIFY, FILTER_USER_GROUP } from "./common";
 
 export default function SortPage() {
   const loading = useAppSelector(fetchingProduct);
@@ -36,17 +37,19 @@ export default function SortPage() {
   }, [dispatch]);
 
   useEffect(() => {
-    // const filterProduct = allProduct?.filter((product: any) => {
-    //   console.log('allProduct', allProduct)
-    //   return product.user_group.includes("Nữ");
-    // });
     setNewProduct(allProduct);
     setDefaultData(allProduct);
   }, [allProduct]);
 
   const sortData = useAppSelector(getSortByUserGroup);
+  const filterClassify = useAppSelector(getFilterByClassify);
 
-  const sortValues = SORT_ARRAY.filter((item: any) => item.name === sortData);
+  const sortValues = FILTER_USER_GROUP.filter(
+    (item: any) => item.name === sortData
+  );
+  const filterByClassify = FILTER_CLASSIFY.filter(
+    (item: any) => item.name === filterClassify
+  );
 
   // SHORT PRODUCT
   const sortProduct = (e: any) => {
@@ -91,15 +94,22 @@ export default function SortPage() {
 
   const sortedProduct = useMemo(() => {
     return newProduct?.filter((item: any) => {
-      if (!isEmpty(sortValues)) {
-        const cond = some(
-          item.user_group.map((v: any) => sortValues[0].value.includes(v))
-        );
-        return cond && item;
-      }
-      return item;
+      const filterUserGroup = some(
+        item.user_group.map((v: any) =>
+          !isEmpty(sortValues) ? sortValues[0]?.value.includes(v) : true
+        )
+      );
+      const filterClassify = some(
+        item.classify.map((v: any) => {
+          return !isEmpty(filterByClassify)
+            ? filterByClassify[0]?.value.includes(v)
+            : true;
+        })
+      );
+
+      return filterUserGroup && filterClassify && item;
     });
-  }, [newProduct, sortValues]);
+  }, [filterByClassify, newProduct, sortValues]);
 
   const renderImage = (product: any) => (
     <img className="" src={product.image_url[0].url} alt="" />

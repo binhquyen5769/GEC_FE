@@ -1,4 +1,4 @@
-export const SORT_ARRAY = [
+export const FILTER_USER_GROUP = [
   {
     name: "user_group1",
     value: ["Anh yêu", "Em yêu"],
@@ -38,5 +38,32 @@ export const SORT_ARRAY = [
   {
     name: "user_group10",
     value: ["Chị gái", "Em gái"],
+  },
+];
+
+export const FILTER_CLASSIFY = [
+  {
+    name: "classify1",
+    value: ["Ngày phụ nữ"],
+  },
+  {
+    name: "classify2",
+    value: ["Kỷ niệm ngày cưới"],
+  },
+  {
+    name: "classify3",
+    value: ["Kỷ niệm ngày yêu"],
+  },
+  {
+    name: "classify4",
+    value: ["Kỷ niệm ngày yêu", "Kỷ niệm ngày cưới"],
+  },
+  {
+    name: "classify5",
+    value: ["Tỏ tình"],
+  },
+  {
+    name: "classify6",
+    value: ["valentine"],
   },
 ];

@@ -1,27 +1,32 @@
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch } from "../../../store/hooks/hooks";
-import { getSortByUserGroupStart } from "../../../store/product/productSlice";
-import { SORT_DATA } from "../../common/Header/common.constant";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
+import {
+  getFilterByClassify,
+  getFilterByClassifyStart,
+  getSortByUserGroup,
+  getSortByUserGroupStart,
+} from "../../../store/product/productSlice";
+import {
+  FILTER_USER_GROUP_DATA,
+  FILTER_CLASSIFY_DATA,
+} from "../../common/Header/common.constant";
 
 export default function NavbarProduct() {
   const { t } = useTranslation(["product"]);
   const dispatch = useAppDispatch();
 
-  const getSort = (val: any) => {
+  const getSort = useAppSelector(getSortByUserGroup);
+  const getFilterClassify = useAppSelector(getFilterByClassify);
+
+  const setSort = (val: any) => {
     dispatch(getSortByUserGroupStart(val));
   };
-  const items_2 = [
-    "20/10",
-    "Kỉ niệm ngày cưới",
-    "Kỉ niệm ngày yêu",
-    "Lần đầu hẹn hò",
-    "Tỏ tình",
-    "Valentine",
-  ];
+  const setFilterByClassify = (val: any) => {
+    dispatch(getFilterByClassifyStart(val));
+  };
 
   return (
     <>
@@ -35,10 +40,13 @@ export default function NavbarProduct() {
             </AccordionSummary>
             <AccordionDetails className="shirt-00">
               <ul className="text-[16px] font-medium">
-                {SORT_DATA.map((item) => (
+                {FILTER_USER_GROUP_DATA.map((item) => (
                   <li
                     className="style-hover-menu"
-                    onClick={() => getSort(item.value)}
+                    onClick={() => setSort(item.value)}
+                    style={
+                      item.value === getSort ? { color: "red" } : undefined
+                    }
                   >
                     {item.label}
                   </li>
@@ -58,8 +66,18 @@ export default function NavbarProduct() {
             </AccordionSummary>
             <AccordionDetails className="shirt-00">
               <ul className="text-[16px] font-medium">
-                {items_2.map((item) => (
-                  <li className="style-hover-menu">{item}</li>
+                {FILTER_CLASSIFY_DATA.map((item) => (
+                  <li
+                    className="style-hover-menu"
+                    onClick={() => setFilterByClassify(item.value)}
+                    style={
+                      item.value === getFilterClassify
+                        ? { color: "red" }
+                        : undefined
+                    }
+                  >
+                    {item.label}
+                  </li>
                 ))}
               </ul>
             </AccordionDetails>
