@@ -9,7 +9,8 @@ import { dataProduct } from "../../../store/product/productSlice";
 import { useAppSelector } from "../../../store/hooks/hooks";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Watermark } from "antd";
+import { Badge, Watermark } from "antd";
+import { orderBy } from "lodash";
 
 export default function NewProduct() {
   const dispatch = useAppDispatch();
@@ -17,12 +18,14 @@ export default function NewProduct() {
     dispatch(fetchProductListStart());
   }, [dispatch]);
   const currentData = useAppSelector(dataProduct);
-  const filterProduct = currentData?.filter((product: any) => product);
+  const filterProduct = orderBy(currentData, "createdAt", "desc").slice(0, 12);
   const navigate = useNavigate();
   const { t } = useTranslation(["common"]);
 
   const renderImage = (product: any) => (
-    <img className="" src={product.image_url[0].url} alt="" />
+    <Badge.Ribbon text="New Arrival" color="pink">
+      <img className="" src={product.image_url[0].url} alt="" />
+    </Badge.Ribbon>
   );
 
   return (
