@@ -47,7 +47,11 @@ export default function Register() {
                 </div>
                 <div className="flex flex-col pb-[16px]">
                   <label className="pb-[8px]">{t("common:userName")}</label>
-                  <input {...register("userName")} className="form-style" type="text" />
+                  <input
+                    {...register("userName")}
+                    className="form-style"
+                    type="text"
+                  />
                   {errors.userName ? (
                     <p className="text-[#dc3545]">{errors.userName.message}</p>
                   ) : (
@@ -56,7 +60,11 @@ export default function Register() {
                 </div>
                 <div className="flex flex-col pb-[16px]">
                   <label className="pb-[8px]">{t("common:password")}</label>
-                  <input {...register("password")} className="form-style" type="password" />
+                  <input
+                    {...register("password")}
+                    className="form-style"
+                    type="password"
+                  />
                   {errors.password ? (
                     <p className="text-[#dc3545]">{errors.password.message}</p>
                   ) : (
@@ -69,13 +77,18 @@ export default function Register() {
                   </Link>
                 </div>
                 <div className="flex items-center justify-center  pb-[16px]">
-                  <Link to="/forgot-password" className="text-[#dc3545] font-medium">
+                  <Link
+                    to="/forgot-password"
+                    className="text-[#dc3545] font-medium"
+                  >
                     {t("common:forgotPassword")}
                   </Link>
                 </div>
                 <div className="flex items-center justify-center pb-[20px]">
                   <button className="button-register">
-                    <span className="text-white text-[18px] font-medium">{t("common:login")}</span>
+                    <span className="text-white text-[18px] font-medium">
+                      {t("common:login")}
+                    </span>
                   </button>
                 </div>
                 <div className="flex items-center justify-center">
