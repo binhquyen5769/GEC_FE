@@ -35,7 +35,6 @@ export default function ProductDetail() {
   const idProduct = Object.values(productId);
   const currentIdProduct = idProduct[0];
   const [selectedColor, setSelectedColor] = useState<any>();
-  const [selectedSize, setSelectedSize] = useState<Size>();
   const [selectQuantity, setSelectQuantity] = useState<number>(1);
   const dataUser = useAppSelector(token);
   const allProduct = useAppSelector(dataProduct);
@@ -71,7 +70,6 @@ export default function ProductDetail() {
 
   // HÀM CHỌN MÀU
   const handleColorSelect = useCallback((color: any) => {
-    console.log("color", color);
     setSelectedColor(color);
   }, []);
 
@@ -80,7 +78,6 @@ export default function ProductDetail() {
     () =>
       !isEmpty(productDetail) &&
       productDetail.color.map((color: any, index: number) => {
-        console.log("color", color);
         return (
           <div key={index}>
             <CircleIcon
@@ -465,7 +462,7 @@ export default function ProductDetail() {
             </div>
 
             {/* SẢN PHẨM LIÊN QUAN */}
-            <RelatedProduct />
+            <RelatedProduct classify={productDetail.classify} />
 
             {/* ĐÁNH GIÁ */}
             {/* {productDetail && <FeedBack productDetail={productDetail} />} */}

@@ -6,12 +6,15 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../store/hooks/hooks";
 import { Link } from "react-router-dom";
-import { dataCart } from "../../store/cart/cartSlice";
+import { cartActions, dataCart } from "../../store/cart/cartSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import _ from "lodash";
-import { FormLabel } from "@mui/material";
+import { Col, Row } from "antd";
+
+import { token } from "../../store/auth/authSlice";
+import { useDispatch } from "react-redux";
 
 export interface FormCheckout {
   initialValues?: CheckoutForm;
@@ -22,6 +25,7 @@ export interface CheckoutForm {
   userName: string;
   phoneNumber: string;
   address: string;
+  item?: any;
 }
 
 export default function Checkout() {
@@ -29,6 +33,8 @@ export default function Checkout() {
   const cartItems = useAppSelector(dataCart);
   const [finalCart, setFinalCart] = useState<any>();
   const [cartPrice, setCartPrice] = useState<any>();
+  const dispatch = useDispatch();
+  const userInfo = useAppSelector(token);
 
   // NHÓM CÁC SẢN PHẨM CÙNG ID, COLOR, SIZE VÀO CÙNG 1 ARRAY KHI USER THÊM SẢN PHẨM VÀO GIỎ HÀNG
   useEffect(() => {
@@ -66,10 +72,15 @@ export default function Checkout() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<CheckoutForm>({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (data: CheckoutForm) => {
-    console.log("data: ", data);
+  useEffect(() => {
+    setValue("item", finalCart);
+  }, [cartPrice, finalCart, setValue]);
+
+  const onSubmit = async (data: any) => {
+    dispatch(cartActions.checkoutStart({ ...data, userInfo: userInfo || {} }));
   };
 
   return (
@@ -132,34 +143,6 @@ export default function Checkout() {
                       <></>
                     )}
                   </div>
-                  <div className="mb-[20px]">
-                    <label className="mb-[12px]">
-                      <span>{t("order:delivery")}</span>
-                      <span className="text-[#e53637]">*</span>
-                    </label>
-                    <div />
-                    <div>
-                      <FormControl>
-                        {/* <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel> */}
-                        <RadioGroup
-                          row
-                          aria-labelledby="demo-row-radio-buttons-group-label"
-                          name="row-radio-buttons-group"
-                        >
-                          <FormControlLabel
-                            value="female"
-                            control={<Radio />}
-                            label="Female"
-                          />
-                          <FormControlLabel
-                            value="male"
-                            control={<Radio />}
-                            label="Male"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </div>
-                  </div>
                 </div>
 
                 {/* GÍA SẢN PHẨM */}
@@ -175,15 +158,17 @@ export default function Checkout() {
                   {finalCart.map((data: any, index: any) => {
                     return (
                       <div key={index}>
-                        <div className="mb-[20px] pb-[20px] border-b-[1px] border-b-solid border-[#d7d7d7]">
-                          <div className="flex justify-between mb-[15px]">
+                        <Row gutter={[4, 4]}>
+                          <Col span={8}>
                             <div className="flex flex-wrap">
-                              {data.product_name} x {data.quantity}.{" "}
-                              {t("common:variant")}: {data.size}, {data.color}
+                              {data.product_name} x {data.quantity}
                             </div>
-                            <div>${data.price * data.quantity}</div>
-                          </div>
-                        </div>
+                          </Col>
+                          <Col span={8} offset={8} push={1}>
+                            <div>{data.price * data.quantity} VNĐ</div>
+                          </Col>
+                        </Row>
+                        <br />
                       </div>
                     );
                   })}
@@ -191,24 +176,10 @@ export default function Checkout() {
                   <div className="pb-[28px] border-b-[1px] border-b-solid border-b-[#d7d7d7] mb-[20px]">
                     <div className="flex justify-between items-center">
                       <div className="text-[#212529] font-bold">
-                        {t("order:subtotal")}
-                      </div>
-                      <div className="text-[#e53637] font-bold">
-                        ${cartPrice}
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div className="text-[#212529] font-bold">
-                        {t("order:feeShipping")}
-                      </div>
-                      <div className="text-[#e53637] font-bold">$5</div>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div className="text-[#212529] font-bold">
                         {t("order:total")}
                       </div>
                       <div className="text-[#e53637] font-bold">
-                        ${cartPrice + 5}
+                        {cartPrice} VNĐ
                       </div>
                     </div>
                   </div>

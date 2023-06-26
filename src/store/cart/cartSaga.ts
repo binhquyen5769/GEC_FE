@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { put, takeLeading, call } from "redux-saga/effects";
 import userApi from "../../api/userApi";
 import { cartActions } from "./cartSlice";
+import { addNewOrder } from "../../api/orderApi";
 
 function* fetchDataCartUser({ payload }: any) {
   try {
@@ -57,11 +58,22 @@ function* removeProductFromCart({ payload }: any) {
 }
 
 function* updateProductInCart({ payload }: any) {
-  console.log("payload", payload);
   try {
     yield put(cartActions.updateProductSuccess(payload));
   } catch (err) {
     yield put(cartActions.updateProductFailed());
+  }
+}
+
+function* checkout({ payload }: any) {
+  console.log("payload", payload);
+  try {
+    yield call(() => addNewOrder(payload));
+    yield put(cartActions.checkoutSuccess());
+    toast.success("Khởi tạo đơn hàng thành công");
+  } catch (err) {
+    yield put(cartActions.checkoutFailed());
+    toast.error("Khởi tạo đơn hàng thất bại");
   }
 }
 
@@ -70,4 +82,5 @@ export default function* cartSaga() {
   yield takeLeading(cartActions.addCartStart.type, addProductToCart);
   yield takeLeading(cartActions.removeProductStart.type, removeProductFromCart);
   yield takeLeading(cartActions.updateProductStart.type, updateProductInCart);
+  yield takeLeading(cartActions.checkoutStart.type, checkout);
 }

@@ -26,7 +26,6 @@ const userApi = {
 
   async getAllUsers(): Promise<any> {
     const response = await axios.get(`http://localhost:3002/users/all`);
-    console.log("response", response);
     return response;
   },
 };

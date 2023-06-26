@@ -78,6 +78,17 @@ const cartSlice = createSlice({
       state.isCartLoading = false;
       state.error = true;
     },
+    checkoutStart(state) {
+      state.isCartLoading = true;
+    },
+    checkoutSuccess(state) {
+      state.isCartLoading = false;
+      state.cart = [];
+    },
+    checkoutFailed(state) {
+      state.isCartLoading = false;
+      state.error = true;
+    },
   },
 });
 

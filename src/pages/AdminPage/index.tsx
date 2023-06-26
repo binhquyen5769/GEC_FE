@@ -29,11 +29,15 @@ function getItem(
 const items: MenuItem[] = [
   getItem("Products", "products", <AreaChartOutlined />),
   getItem("Users", "users", <UserOutlined />),
-  getItem("Orders", "order", <ShoppingCartOutlined />, [
+  getItem(
+    "Orders",
+    "orders",
+    <ShoppingCartOutlined /> /* , [
     getItem("Pending", "order/pending"),
     getItem("Failure", "order/fail"),
     getItem("Success", "order/success"),
-  ]),
+  ] */
+  ),
   // getItem("Files", "9", <FileOutlined />),
 ];
 

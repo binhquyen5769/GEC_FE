@@ -7,6 +7,7 @@ import registerReducer from "./register/registerSlice";
 import productReducer from "./product/productSlice";
 import cartReducer from "./cart/cartSlice";
 import listFavoriteReducer from "./list-favorite/listFavoriteSlice";
+import orderReducer from "./order/orderSlice";
 
 const authPersistConfig = {
   key: "auth",
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   router: routerReducer,
   product: productReducer,
   favorite: persistReducer(listFavoriteConfig, listFavoriteReducer),
+  order: orderReducer,
 });
 
 export default rootReducer;

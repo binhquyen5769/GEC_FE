@@ -1,8 +1,5 @@
 import SwiperCore, { Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SearchIcon from "@mui/icons-material/Search";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
@@ -16,7 +13,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-export default function RelatedProduct() {
+export default function RelatedProduct(props: any) {
+  const { classify } = props;
   SwiperCore.use([Autoplay]);
 
   const dispatch = useAppDispatch();
@@ -24,8 +22,8 @@ export default function RelatedProduct() {
     dispatch(fetchProductListStart());
   }, [dispatch]);
   const currentData = useAppSelector(dataProduct);
-  const filterProduct = currentData?.filter(
-    (product: any) => product.category === "shirt"
+  const filterProduct = currentData?.filter((product: any) =>
+    classify.some((i: any) => product.classify.includes(i))
   );
   const navigate = useNavigate();
   const { t } = useTranslation(["common"]);
@@ -66,10 +64,10 @@ export default function RelatedProduct() {
                   navigate(`/products/${product.id}`);
                 }}
               >
-                <img className="" src={product.image_url.image_url_01} alt="" />
+                <img className="" src={product.image_url[0].url} alt="" />
                 <div className="pt-[20px]">
                   <div className="text-[16px] font-bold mb-[16px]">
-                    {product.product_name}
+                    {product.name}
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-[20px] font-semibold">

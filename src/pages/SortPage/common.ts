@@ -17,7 +17,7 @@ export const FILTER_USER_GROUP = [
   },
   {
     name: "user_group6",
-    value: ["Đồng nghiệp"],
+    value: ["Đồng nghiệp nam", "Đồng nghiệp nữ"],
   },
   {
     name: "user_group7",
