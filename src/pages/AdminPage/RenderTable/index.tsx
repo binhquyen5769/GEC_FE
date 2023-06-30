@@ -1,4 +1,4 @@
-import { Table, Button } from "antd";
+import { Table, Button, Spin } from "antd";
 import {
   dataProduct,
   fetchProductListStart,
@@ -19,11 +19,7 @@ import { fetchOrdersStart, getOrder } from "../../../store/order/orderSlice";
 const RenderTable = (props: any) => {
   const { selectedItem } = props;
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchProductListStart());
-    dispatch(getAllUserStart());
-    dispatch(fetchOrdersStart());
-  }, [dispatch]);
+
   const currentData = useAppSelector(dataProduct);
   const allUser = useAppSelector(userSelector);
   const allOrder = useAppSelector(getOrder);
@@ -31,6 +27,7 @@ const RenderTable = (props: any) => {
   const [isModalUsers, setIsModalUsers] = useState(false);
   const [isModalOrder, setIsModalOrder] = useState(false);
   const [detailItem, setDetailItem] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const showModal = (val: any) => {
     switch (selectedItem) {
@@ -53,6 +50,7 @@ const RenderTable = (props: any) => {
     setIsModalProducts(false);
     setIsModalUsers(false);
     setIsModalOrder(false);
+    setLoading(true);
   };
 
   const handleCancel = () => {
@@ -65,7 +63,6 @@ const RenderTable = (props: any) => {
   let dataSource: any = [];
   let columms: any = [];
 
-  console.log("selectedItem", selectedItem);
   switch (selectedItem) {
     case "products":
       dataSource = currentData;
@@ -87,7 +84,16 @@ const RenderTable = (props: any) => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
-  return (
+  useEffect(() => {
+    dispatch(fetchProductListStart());
+    dispatch(getAllUserStart());
+    dispatch(fetchOrdersStart());
+    setLoading(false);
+  }, [dispatch, loading]);
+
+  return loading ? (
+    <Spin />
+  ) : (
     <div>
       {["products", "users"].includes(selectedItem) && (
         <Button
@@ -99,24 +105,31 @@ const RenderTable = (props: any) => {
           + Add Item
         </Button>
       )}
-      <ModalItem
-        isModalOpen={isModalProducts}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-        detail={detailItem}
-      />
-      <ModalUser
-        isModalOpen={isModalUsers}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-        detail={detailItem}
-      />
-      <ModalOrder
-        isModalOpen={isModalOrder}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-        detail={detailItem}
-      />
+      {selectedItem === "products" && (
+        <ModalItem
+          isModalOpen={isModalProducts}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          detail={detailItem}
+        />
+      )}
+      {selectedItem === "users" && (
+        <ModalUser
+          isModalOpen={isModalUsers}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          detail={detailItem}
+        />
+      )}
+      {selectedItem === "orders" && (
+        <ModalOrder
+          isModalOpen={isModalOrder}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          detail={detailItem}
+        />
+      )}
+
       <Table
         dataSource={dataSource}
         columns={columms}

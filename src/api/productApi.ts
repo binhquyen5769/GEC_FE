@@ -18,6 +18,15 @@ const productApi = {
     );
     return response;
   },
+  async updateProductById(id: any, product: any): Promise<any> {
+    console.log("product", product);
+    const response = await axios.patch(
+      `http://localhost:3002/products/${id}`,
+      product
+    );
+    console.log("response", response);
+    return response;
+  },
 };
 
 export default productApi;

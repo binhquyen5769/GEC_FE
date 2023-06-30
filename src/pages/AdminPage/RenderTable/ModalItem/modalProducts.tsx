@@ -2,11 +2,15 @@ import { Form, Input, InputNumber, Modal, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
 import TextArea from "antd/es/input/TextArea";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ListColorPicker from "./colorPicker";
+import { storageRef } from "../../../../firebase.js";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import productApi from "../../../../api/productApi";
 
 const ModalItem = (props: any) => {
   const { isModalOpen, handleOk, handleCancel, detail } = props;
+  const [newImage, setNewImage] = useState({});
 
   const [form] = Form.useForm();
 
@@ -15,6 +19,7 @@ const ModalItem = (props: any) => {
     wrapperCol: { span: 16 },
   };
   const initialValue = {
+    id: detail.id,
     name: "",
     description: "",
   };
@@ -31,11 +36,22 @@ const ModalItem = (props: any) => {
     form.setFieldValue("description", detail?.description || "");
     form.setFieldValue("price", detail?.price || 0);
     form.setFieldValue("color", detail?.color || []);
+    form.setFieldValue("image_url", detail?.image_url || []);
   }, [detail, form]);
+
+  const normFile = (e: any) => {
+    const currentArrayImage = form.getFieldValue("image_url");
+    return currentArrayImage;
+  };
+
+  const onOk = () => {
+    form.submit();
+  };
+
   return (
     <Modal
       open={isModalOpen}
-      onOk={handleOk}
+      onOk={onOk}
       onCancel={handleCancel}
       width={800}
       centered
@@ -46,6 +62,10 @@ const ModalItem = (props: any) => {
         initialValues={initialValue}
         form={form}
         preserve={false}
+        onFinish={async (val) => {
+          await productApi.updateProductById(detail.id, val);
+          handleOk();
+        }}
       >
         <Form.Item name={"name"} label={"Name"}>
           <Input />
@@ -53,8 +73,56 @@ const ModalItem = (props: any) => {
         <Form.Item name={"description"} label={"Description"}>
           <TextArea />
         </Form.Item>
-        <Form.Item name={"image_url"} label={"Image"}>
-          <Upload fileList={detail.image_url} listType="picture-card">
+        <Form.Item
+          name={"image_url"}
+          label={"Image"}
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+        >
+          <Upload
+            accept="image/*"
+            listType="picture-card"
+            onChange={(e: any) => {
+              const { file } = e;
+              if (file.status === "removed") {
+                form.setFieldValue("image_url", e.fileList);
+                return;
+              }
+              const fileName = `uploads/images/${Date.now()}-${file.name}`;
+              const fileRef = ref(storageRef, fileName);
+              const uploadTask = uploadBytesResumable(
+                fileRef,
+                file.originFileObj
+              );
+              try {
+                uploadTask.on(
+                  "state_changed",
+                  () => {},
+                  (error) => {
+                    alert(error);
+                  },
+                  () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then(
+                      (downloadURL) => {
+                        setNewImage({
+                          name: file.name,
+                          url: downloadURL,
+                        });
+                        const currentValue = form.getFieldValue("image_url");
+                        currentValue.push({
+                          name: file.name,
+                          url: downloadURL,
+                        });
+                        form.setFieldValue("image_url", currentValue);
+                      }
+                    );
+                  }
+                );
+              } catch (e) {
+                console.log(e);
+              }
+            }}
+          >
             {uploadButton}
           </Upload>
         </Form.Item>
