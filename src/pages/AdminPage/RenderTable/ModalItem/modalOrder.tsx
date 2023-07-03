@@ -1,6 +1,7 @@
 import { Form, Modal, Select } from "antd";
 
 import { useEffect } from "react";
+import { updateStatusOrder } from "../../../../api/orderApi";
 
 const STATUS_OPTIONS = [
   { value: "PENDING", label: "Đang chờ duyệt đơn" },
@@ -24,10 +25,14 @@ const ModalOrder = (props: any) => {
   useEffect(() => {
     form.setFieldValue("status", detail?.status);
   }, [detail, form]);
+
+  const onOK = () => {
+    form.submit();
+  };
   return (
     <Modal
       open={isModalOpen}
-      onOk={handleOk}
+      onOk={onOK}
       onCancel={handleCancel}
       width={800}
       centered
@@ -38,6 +43,10 @@ const ModalOrder = (props: any) => {
         initialValues={initialValue}
         form={form}
         preserve={false}
+        onFinish={async (val) => {
+          await updateStatusOrder({ ...val, id: detail.id });
+          handleOk();
+        }}
       >
         <Form.Item name={"status"} label={"Status"}>
           <Select options={STATUS_OPTIONS} />

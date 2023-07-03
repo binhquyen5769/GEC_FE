@@ -9,7 +9,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import productApi from "../../../../api/productApi";
 
 const ModalItem = (props: any) => {
-  const { isModalOpen, handleOk, handleCancel, detail } = props;
+  const { isModalOpen, handleOk, handleCancel, detail, isEdit } = props;
   const [newImage, setNewImage] = useState({});
 
   const [form] = Form.useForm();

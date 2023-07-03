@@ -28,8 +28,12 @@ const RenderTable = (props: any) => {
   const [isModalOrder, setIsModalOrder] = useState(false);
   const [detailItem, setDetailItem] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isEdit, setIsEdit] = useState(false);
 
   const showModal = (val: any) => {
+    if (!val) {
+      setIsEdit(true);
+    }
     switch (selectedItem) {
       case "products":
         setIsModalProducts(true);
@@ -51,12 +55,14 @@ const RenderTable = (props: any) => {
     setIsModalUsers(false);
     setIsModalOrder(false);
     setLoading(true);
+    setIsEdit(false);
   };
 
   const handleCancel = () => {
     setIsModalProducts(false);
     setIsModalUsers(false);
     setIsModalOrder(false);
+    setIsEdit(false);
     setDetailItem({});
   };
 
@@ -100,7 +106,7 @@ const RenderTable = (props: any) => {
           style={{
             marginBottom: "10px",
           }}
-          onClick={showModal}
+          onClick={() => showModal(false)}
         >
           + Add Item
         </Button>
@@ -111,6 +117,7 @@ const RenderTable = (props: any) => {
           handleOk={handleOk}
           handleCancel={handleCancel}
           detail={detailItem}
+          isEdit={isEdit}
         />
       )}
       {selectedItem === "users" && (
