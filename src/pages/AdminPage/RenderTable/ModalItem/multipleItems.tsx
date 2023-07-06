@@ -4,7 +4,7 @@ import type { InputRef } from "antd";
 import { Space, Input, Tag, Tooltip, theme, Form } from "antd";
 
 const MutipleItems: any = (props: any) => {
-  const { value } = props;
+  const { value, name } = props;
   const form = Form.useFormInstance();
 
   const { token } = theme.useToken();
@@ -29,7 +29,7 @@ const MutipleItems: any = (props: any) => {
   const handleClose = (removedTag: string) => {
     const newTags = tags.filter((tag: any) => tag !== removedTag);
     setTags(newTags);
-    form.setFieldsValue({ classify: newTags });
+    form.setFieldsValue({ [name]: newTags });
   };
 
   const showInput = () => {
@@ -43,7 +43,7 @@ const MutipleItems: any = (props: any) => {
   const handleInputConfirm = () => {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       setTags([...tags, inputValue]);
-      form.setFieldsValue({ classify: [...tags, inputValue] });
+      form.setFieldsValue({ [name]: [...tags, inputValue] });
     }
     setInputVisible(false);
     setInputValue("");
@@ -57,7 +57,7 @@ const MutipleItems: any = (props: any) => {
     const newTags = [...tags];
     newTags[editInputIndex] = editInputValue;
     setTags(newTags);
-    form.setFieldsValue({ classify: newTags });
+    form.setFieldsValue({ [name]: newTags });
 
     setEditInputIndex(-1);
     setInputValue("");

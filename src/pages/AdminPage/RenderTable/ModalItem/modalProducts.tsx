@@ -20,7 +20,6 @@ const ModalItem = (props: any) => {
     wrapperCol: { span: 16 },
   };
   const initialValue = {
-    id: detail.id,
     name: "",
     description: "",
   };
@@ -39,6 +38,8 @@ const ModalItem = (props: any) => {
     form.setFieldValue("color", detail?.color || []);
     form.setFieldValue("image_url", detail?.image_url || []);
     form.setFieldValue("classify", detail?.classify || []);
+    form.setFieldValue("user_group", detail?.user_group || []);
+    form.setFieldValue("quantity", detail?.quantity || 0);
   }, [detail, form]);
 
   const normFile = (e: any) => {
@@ -65,7 +66,11 @@ const ModalItem = (props: any) => {
         form={form}
         preserve={false}
         onFinish={async (val) => {
-          await productApi.updateProductById(detail.id, val);
+          if (detail) {
+            await productApi.updateProductById(detail.id, val);
+          } else {
+            await productApi.createProduct(val);
+          }
           handleOk();
         }}
       >
@@ -73,7 +78,10 @@ const ModalItem = (props: any) => {
           <Input />
         </Form.Item>
         <Form.Item name={"classify"} label={"Classify"}>
-          <MutipleItems />
+          <MutipleItems name={"classify"} />
+        </Form.Item>
+        <Form.Item name={"user_group"} label={"User Group"}>
+          <MutipleItems name={"user_group"} />
         </Form.Item>
         <Form.Item name={"description"} label={"Description"}>
           <TextArea />
@@ -133,6 +141,9 @@ const ModalItem = (props: any) => {
         </Form.Item>
         <Form.Item name={"price"} label={"Price"}>
           <InputNumber addonAfter={"VND"} />
+        </Form.Item>
+        <Form.Item name={"quantity"} label={"Quantity"}>
+          <InputNumber />
         </Form.Item>
         <Form.Item name={"color"} label={"Color"}>
           <ListColorPicker />

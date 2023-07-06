@@ -4,6 +4,7 @@ import axios from "axios";
 const productApi = {
   async getAllProduct() {
     const res = await axios.get("http://localhost:3002/products/all");
+    console.log("res", res);
 
     // const response = { data: product };
     return res;
@@ -26,6 +27,21 @@ const productApi = {
     );
     console.log("response", response);
     return response;
+  },
+
+  async createProduct(product: any): Promise<any> {
+    const { properties = "", type = "" } = product;
+    try {
+      const res = await axios.post("http://localhost:3002/products", {
+        ...product,
+        properties,
+        type,
+      });
+      alert("Tạo sản phẩm thành công");
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
 
