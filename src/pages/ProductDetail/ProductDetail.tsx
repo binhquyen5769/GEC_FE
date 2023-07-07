@@ -404,7 +404,7 @@ export default function ProductDetail() {
                   </div> */}
                 </div>
                 {/* MÔ TẢ SẢN PHẨM */}
-                <div className="mt-[40px]">
+                <div className="mt-[40px] pr-[50px]">
                   <div className="font-semibold">{t("common:description")}</div>
                   <div className="flex flex-col">
                     <span
