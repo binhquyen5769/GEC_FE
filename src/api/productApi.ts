@@ -3,24 +3,28 @@ import axios from "axios";
 
 const productApi = {
   async getAllProduct() {
-    const res = await axios.get("http://localhost:3002/products/all");
+    const res = await axios.get(
+      "https://example-app-be-cbae8c718e3e.herokuapp.com/products/all"
+    );
 
     // const response = { data: product };
     return res;
   },
   async getProductById(id: any): Promise<any> {
-    const response = await axios.get(`http://localhost:3002/products/${id}`);
+    const response = await axios.get(
+      `https://example-app-be-cbae8c718e3e.herokuapp.com/products/${id}`
+    );
     return response;
   },
   async searchProductByName(classify: any): Promise<any> {
     const response = await axios.get(
-      `http://localhost:3002/products/search?classify=${classify}`
+      `https://example-app-be-cbae8c718e3e.herokuapp.com/products/search?classify=${classify}`
     );
     return response;
   },
   async updateProductById(id: any, product: any): Promise<any> {
     const response = await axios.patch(
-      `http://localhost:3002/products/${id}`,
+      `https://example-app-be-cbae8c718e3e.herokuapp.com/products/${id}`,
       product
     );
     return response;
@@ -29,11 +33,14 @@ const productApi = {
   async createProduct(product: any): Promise<any> {
     const { properties = "", type = "" } = product;
     try {
-      const res = await axios.post("http://localhost:3002/products", {
-        ...product,
-        properties,
-        type,
-      });
+      const res = await axios.post(
+        "https://example-app-be-cbae8c718e3e.herokuapp.com/products",
+        {
+          ...product,
+          properties,
+          type,
+        }
+      );
       alert("Tạo sản phẩm thành công");
       return res;
     } catch (err) {
