@@ -27,7 +27,7 @@ export default function Header() {
   const dataCartUser = useAppSelector(dataCart);
   const dispatch = useAppDispatch();
   const [quantityItem, setQuantityItem] = useState<number>();
-  const handleLogout = (e: any) => {
+  const handleLogout = () => {
     dispatch(logOutStart());
   };
   const { t } = useTranslation(["common", "header", "product", "order"]);
@@ -50,6 +50,11 @@ export default function Header() {
   // GET VALUE LANGUAGE
   useEffect(() => {
     const language: any = localStorage.getItem("i18nextLng");
+    const persist: any = JSON.parse(
+      localStorage.getItem("persist:auth") || "{}"
+    );
+    const { token } = persist;
+    token && JSON.parse(token).exp < Date.now() / 1000 && handleLogout();
     if (language?.length > 2) {
       i18next.changeLanguage("en");
     }

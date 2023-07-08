@@ -40,8 +40,10 @@ export default function ProductDetail() {
   const allProduct = useAppSelector(dataProduct);
   const dispatch = useAppDispatch();
   const listFavoriteProduct = useAppSelector(listProductFavorite);
-  const finalFavoriteProduct = listFavoriteProduct?.flat(Infinity);
-
+  console.log("listFavoriteProduct", listFavoriteProduct);
+  const finalFavoriteProduct = !isEmpty(listFavoriteProduct)
+    ? listFavoriteProduct?.flat(Infinity)
+    : [];
   // SCROLL TOP
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -160,7 +162,6 @@ export default function ProductDetail() {
         price: productDetail.price,
         quantity: selectQuantity,
         color: selectedColor,
-        // size: selectedSize,
       };
       dispatch(cartActions.addCartStart(cartItem));
     }
@@ -181,24 +182,30 @@ export default function ProductDetail() {
   const addToFavoriteList = useCallback(
     (e: any) => {
       dispatch(
-        listFavoriteActions.addProductToFavoriteListStart(productDetail)
+        listFavoriteActions.addProductToFavoriteListStart({
+          ...productDetail,
+          userId: dataUser.id,
+        })
       );
     },
-    [dispatch, productDetail]
+    [dataUser.id, dispatch, productDetail]
   );
 
   // LẤY RA ID CỦA TẤT CẢ SẢN PHẨM TRONG WISH LIST
-  const checkId = finalFavoriteProduct.some(
-    (item: any) => item.id === currentIdProduct
-  );
+  const checkId = finalFavoriteProduct.some((item: any) => {
+    return currentIdProduct && item.id === +currentIdProduct;
+  });
 
   const removeFromFavoriteList = useCallback(
     (e: any) => {
       dispatch(
-        listFavoriteActions.removeProductFromFavoriteStart(currentIdProduct)
+        listFavoriteActions.removeProductFromFavoriteStart({
+          id: currentIdProduct,
+          userId: dataUser.id,
+        })
       );
     },
-    [currentIdProduct, dispatch]
+    [currentIdProduct, dataUser.id, dispatch]
   );
 
   const renderImage = (item: any) => (

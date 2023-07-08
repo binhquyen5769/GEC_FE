@@ -28,6 +28,13 @@ const userApi = {
     const response = await axios.get(`http://localhost:3002/users/all`);
     return response;
   },
+  async updateUser(id: any, data: any): Promise<any> {
+    const res = await axios.patch(
+      `http://localhost:3002/users/edit/${id}`,
+      data
+    );
+    return res;
+  },
 };
 
 export default userApi;

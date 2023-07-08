@@ -4,7 +4,6 @@ import axios from "axios";
 const productApi = {
   async getAllProduct() {
     const res = await axios.get("http://localhost:3002/products/all");
-    console.log("res", res);
 
     // const response = { data: product };
     return res;
@@ -20,12 +19,10 @@ const productApi = {
     return response;
   },
   async updateProductById(id: any, product: any): Promise<any> {
-    console.log("product", product);
     const response = await axios.patch(
       `http://localhost:3002/products/${id}`,
       product
     );
-    console.log("response", response);
     return response;
   },
 

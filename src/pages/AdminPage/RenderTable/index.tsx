@@ -57,6 +57,8 @@ const RenderTable = (props: any) => {
     setIsModalOrder(false);
     setIsEdit(false);
     dispatch(fetchProductListStart());
+    dispatch(getAllUserStart());
+    dispatch(fetchOrdersStart());
   };
 
   const handleCancel = () => {
