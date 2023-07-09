@@ -181,14 +181,16 @@ export default function ProductDetail() {
   // THÊM SẢN PHẨM VÀO WISH-LIST
   const addToFavoriteList = useCallback(
     (e: any) => {
-      dispatch(
-        listFavoriteActions.addProductToFavoriteListStart({
-          ...productDetail,
-          userId: dataUser.id,
-        })
-      );
+      dataUser
+        ? dispatch(
+            listFavoriteActions.addProductToFavoriteListStart({
+              ...productDetail,
+              userId: dataUser.id,
+            })
+          )
+        : toast.warning("Cần đăng nhập để thêm vào Wish List");
     },
-    [dataUser.id, dispatch, productDetail]
+    [dataUser, dispatch, productDetail]
   );
 
   // LẤY RA ID CỦA TẤT CẢ SẢN PHẨM TRONG WISH LIST
@@ -198,14 +200,16 @@ export default function ProductDetail() {
 
   const removeFromFavoriteList = useCallback(
     (e: any) => {
-      dispatch(
-        listFavoriteActions.removeProductFromFavoriteStart({
-          id: currentIdProduct,
-          userId: dataUser.id,
-        })
-      );
+      dataUser
+        ? dispatch(
+            listFavoriteActions.removeProductFromFavoriteStart({
+              id: currentIdProduct,
+              userId: dataUser.id,
+            })
+          )
+        : toast.warning("Cần đăng nhập để xóa Wish List");
     },
-    [currentIdProduct, dataUser.id, dispatch]
+    [currentIdProduct, dataUser, dispatch]
   );
 
   const renderImage = (item: any) => (
