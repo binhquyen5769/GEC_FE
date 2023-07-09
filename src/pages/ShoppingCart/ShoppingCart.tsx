@@ -119,7 +119,7 @@ export default function ShoppingCart() {
                         </div>
                       </td>
                       <td className="table-cell py-[30px] text-right font-semibold text-[18px] w-[140px]">
-                        ${data.quantity * data.price}
+                        {data.quantity * data.price} VNĐ
                       </td>
                       <td className="w-[170px] table-cell py-[30px] text-right">
                         <div className="flex justify-center items-center text-center">
