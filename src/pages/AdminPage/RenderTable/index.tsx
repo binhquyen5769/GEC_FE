@@ -103,7 +103,7 @@ const RenderTable = (props: any) => {
     <Spin />
   ) : (
     <div>
-      {["products", "users"].includes(selectedItem) && (
+      {selectedItem === "products" && (
         <Button
           style={{
             marginBottom: "10px",

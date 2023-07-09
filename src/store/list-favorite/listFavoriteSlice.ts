@@ -66,6 +66,9 @@ const listFavoriteSlice = createSlice({
       state.fetching = false;
       state.error = true;
     },
+    clearFavoriteFailed(state) {
+      state.listFavoriteProduct = [];
+    },
   },
 });
 
