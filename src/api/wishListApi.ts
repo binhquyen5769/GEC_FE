@@ -10,8 +10,7 @@ const wishList = {
   },
   async fetchWishList(userId: any): Promise<any> {
     const { data } = await axios.get(
-      "https://example-app-be-cbae8c718e3e.herokuapp.com/wish-list",
-      userId
+      `https://example-app-be-cbae8c718e3e.herokuapp.com/wish-list/${userId}`
     );
     return data;
   },
