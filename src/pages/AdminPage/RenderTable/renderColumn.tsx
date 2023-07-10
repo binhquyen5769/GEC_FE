@@ -171,6 +171,7 @@ export const renderColumnOrder = (data: any) => [
                           {" "}
                           Màu sắc:{" "}
                           <CircleIcon
+                            className={"circle-style"}
                             sx={{ color: `${item.color}`, fontSize: "26px" }}
                           />
                         </Divider>
