@@ -40,7 +40,6 @@ export default function ProductDetail() {
   const allProduct = useAppSelector(dataProduct);
   const dispatch = useAppDispatch();
   const listFavoriteProduct = useAppSelector(listProductFavorite);
-  console.log("listFavoriteProduct", listFavoriteProduct);
   const finalFavoriteProduct = !isEmpty(listFavoriteProduct)
     ? listFavoriteProduct?.flat(Infinity)
     : [];
