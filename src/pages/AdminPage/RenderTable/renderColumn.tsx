@@ -43,6 +43,14 @@ export const renderColumnUsers = [
 
 export const renderColumnProduct = [
   {
+    title: "Active",
+    dataIndex: "active",
+    key: "active",
+    render: (val: any) => {
+      return <Switch checked={val} disabled />;
+    },
+  },
+  {
     title: "Name",
     dataIndex: "name",
     key: "name",
