@@ -55,11 +55,9 @@ export default function Header() {
       localStorage.getItem("persist:auth") || "{}"
     );
     const { token } = persist;
-    if (!token.active) {
-      handleLogout();
-    }
     if (!!token) {
       JSON.parse(token)?.exp < Date.now() / 1000 && handleLogout();
+      !JSON.parse(token)?.active && handleLogout();
     }
     if (language?.length > 2) {
       i18next.changeLanguage("en");
